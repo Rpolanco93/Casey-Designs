@@ -8,5 +8,4 @@ __pycache__/
 .idea
 *.sql
 generate.sh
-run.sh
 migrations/tools/bin/flyway-*

@@ -27,3 +27,6 @@ migrations/*.sql
 
 # Ignore OSX files
 **/.DS_Store
+
+# Ignore .gitignore
+**/.gitignore

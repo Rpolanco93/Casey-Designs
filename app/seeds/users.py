@@ -1,32 +1,52 @@
-from app.models import db, User, environment, SCHEMA
-from sqlalchemy.sql import text
+from app.models import User
+from app.models.db import db
 
 
-# Adds a demo user, you can add other users here if you want
+# Adds a demo user along with any other users here if you want. The id space between 1 and 99,999 is reserved
+# for users created by seeding. As make sure specify an id when creating a seeded user.
 def seed_users():
     demo = User(
-        username='Demo', email='demo@aa.io', password='password')
+        id=1,
+        first_name='First',
+        last_name='Last',
+        username='Demo',
+        email='demo@aa.io',
+        password='password'
+    )
     marnie = User(
-        username='marnie', email='marnie@aa.io', password='password')
+        id=2,
+        first_name='First',
+        last_name='Last',
+        username='marnie',
+        email='marnie@aa.io',
+        password='password'
+    )
     bobbie = User(
-        username='bobbie', email='bobbie@aa.io', password='password')
+        id=3,
+        first_name='First',
+        last_name='Last',
+        username='bobbie',
+        email='bobbie@aa.io',
+        password='password'
+    )
+    demotest2 = User(
+        id=4,
+        first_name='First',
+        last_name='Last',
+        username='demotest2',
+        email='demotest2@aa.io',
+        password='password'
+    )
 
     db.session.add(demo)
     db.session.add(marnie)
     db.session.add(bobbie)
+    db.session.add(demotest2)
     db.session.commit()
 
 
-# Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
-# have a built in function to do this. With postgres in production TRUNCATE
-# removes all the data from the table, and RESET IDENTITY resets the auto
-# incrementing primary key, CASCADE deletes any dependent entities.  With
-# sqlite3 in development you need to instead use DELETE to remove all data and
-# it will reset the primary keys for you as well.
+# The id space between 1 and 99,999 is reserved for users created by seeding. To remove any seeded user a simple
+# delete where primary key is < 100000 can be used.
 def undo_users():
-    if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
-    else:
-        db.session.execute(text("DELETE FROM users"))
-        
+    User.query.filter(User.id < 100000).delete()
     db.session.commit()

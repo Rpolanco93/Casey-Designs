@@ -6,6 +6,5 @@ __pycache__/
 .vscode/
 *.db
 .idea
-*.sql
 generate.sh
 migrations/tools/bin/flyway-*

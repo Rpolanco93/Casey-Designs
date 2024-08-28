@@ -17,6 +17,11 @@
 react-vite/dist
 react-vite/node_modules
 
+# Ignore migration files and scripts
+migrations/tools/bin/*
+migrations/tools/scripts/models
+migrations/*.sql
+
 # Ignore any READMEs
 **/README*
 

@@ -9,3 +9,4 @@ __pycache__/
 *.sql
 generate.sh
 run.sh
+migrations/tools/bin/flyway-*

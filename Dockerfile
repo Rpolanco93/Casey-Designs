@@ -1,10 +1,17 @@
 # Container starting image
-FROM python:3.9.18-alpine3.18
+FROM python:3.9.19-slim-bookworm
 
-# Install build essentials, postgres, python, gcc, build-base, and NodeJS + NPM for building front-end
-RUN apk --no-cache add build-base \
-    postgresql-dev gcc python3-dev musl-dev \
-    postgresql-client nodejs npm
+# Install wget, build-essentials, libpq-dev, nodejs, npm; then purge caches
+RUN : \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        wget \
+        build-essential \
+        libpq-dev \
+        nodejs \
+        npm \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Load environment variables
 ARG DATABASE_URL
@@ -28,7 +35,16 @@ WORKDIR /var/www
 COPY . .
 
 # Log layout
-RUN find .
+# RUN find .
+
+# Set working directory to "/var/www/migrations/tools/bin"
+WORKDIR /var/www/migrations/tools/bin
+
+# Install flyway
+RUN wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.17.2/flyway-commandline-10.17.2-linux-x64.tar.gz | tar -xvz
+
+# Create symlink
+RUN ln -s flyway-10.17.2 flyway
 
 # Set working directory to "/var/www/react-vite"
 WORKDIR /var/www/react-vite
@@ -61,16 +77,22 @@ RUN pip install --upgrade pip
 # Install pipenv to generate requirements file
 RUN pip install pipenv
 RUN pipenv requirements > requirements.txt
+RUN pip uninstall -y pipenv
 
 # Install python dependecies
 RUN pip install -r requirements.txt
-RUN pip install psycopg2
 
-# Remove NodeJS + NPM
-RUN apk del nodejs npm
+# Remove wget, build-essential, libpq-dev, nodejs, npm
+RUN : \
+    && apt-get -y purge \
+        wget \
+        build-essential \
+        libpq-dev \
+        nodejs \
+        npm
 
 # Log layout
-RUN find .
+# RUN find .
 
 # Run webserver (need to specify full path)
 CMD /var/www/run.sh

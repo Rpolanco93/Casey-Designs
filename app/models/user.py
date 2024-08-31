@@ -1,17 +1,25 @@
-from typing import List, Optional
-from sqlalchemy import BigInteger, Boolean, DateTime, ForeignKeyConstraint, Index, Integer, PrimaryKeyConstraint, String, Text, UniqueConstraint, text
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
 from dataclasses import dataclass
+from typing import TYPE_CHECKING, List, Optional
+
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-from app.models.db import db, SCHEMA
-from typing import TYPE_CHECKING
+from sqlalchemy import (
+    BigInteger,
+    DateTime,
+    PrimaryKeyConstraint,
+    Text,
+    UniqueConstraint,
+    text,
+)
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from app.models.db import SCHEMA, db
+
+
 # Load imports for type checking only to prevent import cycles
 if TYPE_CHECKING:
-    from app.models import Role
     from app.models import UserRole
-    pass
 
 @dataclass
 class User(db.Model, UserMixin):
@@ -35,7 +43,7 @@ class User(db.Model, UserMixin):
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime(True), server_default=text('clock_timestamp()'))
     updated_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True))
 
-    user_roless: Mapped[List['UserRole']] = relationship('UserRole', back_populates='user')
+    user_roles: Mapped[List['UserRole']] = relationship('UserRole', back_populates='user')
 
 
     @property

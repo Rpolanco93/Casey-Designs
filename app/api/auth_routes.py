@@ -1,16 +1,18 @@
 from flask import Blueprint, request
 from flask_login import current_user, login_user, logout_user
+from sqlalchemy.orm import joinedload
 
 from app.forms import LoginForm, SignUpForm
-from app.models import User, db
+from app.models import User, db, UserRole
 
 auth_routes = Blueprint('auth', __name__)
 
-def removekey(d, keys):
-    r = dict(d)
-    for key in keys:
-        del r[key]
-    return r
+def make_dict(user):
+    return {
+        'id': user.id,
+        'first_name': user.first_name,
+        'roles': [role.to_dict() for role in user.user_roles]
+    }
 
 @auth_routes.route('/')
 def authenticate():
@@ -18,7 +20,7 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        return removekey(current_user.to_dict(nested=True), ['created_at', 'email', 'last_name', 'updated_at', 'hashed_password'])
+        return make_dict(current_user)
     return {'errors': {'message': 'Unauthorized'}}, 401
 
 
@@ -33,9 +35,15 @@ def login():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         # Add the user to the session, we are logged in!
-        user = User.query.filter(User.email == form.data['email']).first()
+        user = (
+            User
+                .query
+                .filter(User.email == form.data['email'])
+                .options(joinedload(User.user_roles))
+                .first()
+        )
         login_user(user)
-        return removekey(user.to_dict(nested=True), ['created_at', 'email', 'last_name', 'updated_at', 'hashed_password'])
+        return make_dict(user)
     return form.errors, 401
 
 
@@ -56,17 +64,37 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        # removes the csrf to use the ** distribution for ease of coding.
+        # it will turn the form.data into key=values
+        del form['csrf_token']
         user = User(
-            first_name=form.data['first_name'],
-            last_name=form.data['last_name'],
-            username=form.data['username'],
-            email=form.data['email'],
-            password=form.data['password']
+            **form.data
         )
         db.session.add(user)
+        # flush is used to push(run) all of the previous db adds
+        # needed to flush the user to get an id from the db to use it for user roles
+        db.session.flush()
+
+        super = UserRole(
+            user_id=user.id,
+            role_id=1
+        )
+        product_review = UserRole(
+            user_id=user.id,
+            role_id=2
+        )
+        shopper = UserRole(
+            user_id=user.id,
+            role_id=3
+        )
+
+        db.session.add(super)
+        db.session.add(product_review)
+        db.session.add(shopper)
+
         db.session.commit()
         login_user(user)
-        return user.to_dict()
+        return make_dict(user)
     return form.errors, 401
 
 

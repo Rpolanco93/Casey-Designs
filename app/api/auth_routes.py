@@ -6,6 +6,11 @@ from app.models import User, db
 
 auth_routes = Blueprint('auth', __name__)
 
+def removekey(d, keys):
+    r = dict(d)
+    for key in keys:
+        del r[key]
+    return r
 
 @auth_routes.route('/')
 def authenticate():
@@ -13,7 +18,7 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        return current_user.to_dict()
+        return removekey(current_user.to_dict(nested=True), ['created_at', 'email', 'last_name', 'updated_at', 'hashed_password'])
     return {'errors': {'message': 'Unauthorized'}}, 401
 
 
@@ -30,7 +35,7 @@ def login():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
-        return user.to_dict()
+        return removekey(user.to_dict(nested=True), ['created_at', 'email', 'last_name', 'updated_at', 'hashed_password'])
     return form.errors, 401
 
 
@@ -48,13 +53,12 @@ def sign_up():
     """
     Creates a new user and logs them in
     """
-    r = request.get_json()
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = User(
-            first_name=r['first_name'],
-            last_name=r['last_name'],
+            first_name=form.data['first_name'],
+            last_name=form.data['last_name'],
             username=form.data['username'],
             email=form.data['email'],
             password=form.data['password']

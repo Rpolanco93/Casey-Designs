@@ -11,8 +11,14 @@ case "${COMMAND}" in
     "migrate")
         "${BASE_DIRECTORY}/tools/scripts/flyway/migrate.sh"
         ;;
+
     "clean")
         "${BASE_DIRECTORY}/tools/scripts/flyway/clean.sh"
+        ;;
+
+    "reset")
+        "${BASE_DIRECTORY}/tools/scripts/flyway/clean.sh"
+        "${BASE_DIRECTORY}/tools/scripts/flyway/migrate.sh"
         ;;
 
     "models")
@@ -20,6 +26,6 @@ case "${COMMAND}" in
         ;;
     *)
         echo "Unsupported command: \"migrate\", \"clean\", and \"models\" are the only valid options"
-        echo "Usage: ./migrations/migrate <clean | migrate | models>"
+        echo "Usage: ./migrations/migrate <clean | migrate | reset | models>"
 
 esac

@@ -46,5 +46,7 @@ def seed_user_roles():
 # The id space between 1 and 99,999 is reserved for users created by seeding. To remove any seeded user a simple
 # delete where primary key is < 100000 can be used.
 def undo_user_roles():
-    UserRole.query.filter(UserRole.id < 100000).delete()
-    db.session.commit()
+    # No delete is necessary as deleting users / roles will clean this table
+    # UserRole.query.filter(UserRole.id < 100000).delete()
+    # db.session.commit()
+    pass

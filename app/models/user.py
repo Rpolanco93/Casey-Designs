@@ -21,6 +21,8 @@ from app.models.db import SCHEMA, db
 if TYPE_CHECKING:
     from app.models import Product
     from app.models import UserRole
+    from app.models import ProductFavorite
+    from app.models import ProductReview
 
 @dataclass
 class User(db.Model, UserMixin):
@@ -46,6 +48,8 @@ class User(db.Model, UserMixin):
 
     products: Mapped[List['Product']] = relationship('Product', back_populates='seller')
     user_roles: Mapped[List['UserRole']] = relationship('UserRole', back_populates='user')
+    product_favorites: Mapped[List['ProductFavorite']] = relationship('ProductFavorite', back_populates='user')
+    product_reviews: Mapped[List['ProductReview']] = relationship('ProductReview', back_populates='user')
 
 
     @property

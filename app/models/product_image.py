@@ -35,4 +35,4 @@ class ProductImage(db.Model):
     url: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime(True), server_default=text('clock_timestamp()'))
 
-    product: Mapped['Product'] = relationship('Product', back_populates='product_imagess')
+    product: Mapped['Product'] = relationship('Product', back_populates='product_images')

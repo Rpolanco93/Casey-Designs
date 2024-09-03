@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from flask_login import current_user, login_required
 from app.models import Product, ProductImage, db
 from sqlalchemy.orm import joinedload
-from helper import make_dict
+from app.api.helper import make_dict
 
 product_get_routes = Blueprint('product-get', __name__)
 

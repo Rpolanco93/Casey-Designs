@@ -19,7 +19,7 @@ def seed_products():
         name='Adventure Time',
         price=100,
         deleted=False,
-        description='Classic sign with the ability to engrabe anything into the white space!'
+        description='Classic sign with the ability to engrave anything into the white space!'
     )
     product3 = Product(
         id=3,

@@ -42,6 +42,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(product_get, url_prefix='/api/products')
 
 
+
 # Before any request is made, set the search path so that direct queries will look in the
 # right place for database objects.
 @app.before_request

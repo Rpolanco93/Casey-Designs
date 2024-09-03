@@ -50,3 +50,5 @@ def get_product_reviews(product_id):
         return jsonify([review.to_dict() for review in reviews]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+

@@ -19,7 +19,10 @@ from app.models.db import SCHEMA, db
 
 # Load imports for type checking only to prevent import cycles
 if TYPE_CHECKING:
+    from app.models import Product
     from app.models import UserRole
+    from app.models import ProductFavorite
+    from app.models import ProductReview
 
 @dataclass
 class User(db.Model, UserMixin):
@@ -43,7 +46,10 @@ class User(db.Model, UserMixin):
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime(True), server_default=text('clock_timestamp()'))
     updated_at: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime(True))
 
+    products: Mapped[List['Product']] = relationship('Product', back_populates='seller')
     user_roles: Mapped[List['UserRole']] = relationship('UserRole', back_populates='user')
+    product_favorites: Mapped[List['ProductFavorite']] = relationship('ProductFavorite', back_populates='user')
+    product_reviews: Mapped[List['ProductReview']] = relationship('ProductReview', back_populates='user')
 
 
     @property

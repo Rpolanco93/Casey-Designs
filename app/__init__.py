@@ -7,7 +7,11 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import generate_csrf
 from sqlalchemy import text
 
-from .api import user_routes, auth_routes
+from .api import (
+    user_routes,
+    auth_routes,
+    product_get_routes
+)
 from .config import Config
 from .models import db, SCHEMA, User
 from .seeds import seed_commands
@@ -35,6 +39,7 @@ CORS(app)
 # Add route blueprints
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(product_get_routes, url_prefix='/api/products')
 
 
 # Before any request is made, set the search path so that direct queries will look in the

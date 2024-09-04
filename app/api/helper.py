@@ -1,4 +1,7 @@
 import uuid, os, boto3, botocore
+from flask_login import current_user
+from app.models import ProductReview
+from typing import Dict, Any
 
 '''AWS connection setup'''
 
@@ -53,7 +56,7 @@ def remove_file_from_s3(image_url):
         return { "errors": str(e) }
     return True
 
-'''Function to convert db results to dict'''
+'''Function to convert product results to dict'''
 
 def make_dict(product):
     # fetch first image
@@ -61,7 +64,7 @@ def make_dict(product):
 
     # calculate avg star rating & review count
     review_count = len(product.product_reviews)
-    avg_rating = round(sum([review.star_rating for review in product.product_reviews]) / review_count,
+    avg_rating = round(sum([review.stars for review in product.product_reviews]) / review_count,
                        1) if review_count > 0 else 0
 
     return {
@@ -73,4 +76,20 @@ def make_dict(product):
         'previewImage': preview_image,
         'avgRating': avg_rating,
         'reviewCount': review_count
+    }
+
+'''function to make review returns with user data to dict'''
+
+def review_dict(review: ProductReview) -> Dict[str, Any]:
+    owner = review.user.to_dict()
+
+    return {
+        'review': review.review,
+        'stars': review.stars,
+        'user': {
+            'firstName': owner["first_name"],
+        },
+        'reviewOwner': True if current_user.is_authenticated and current_user.id is owner['id'] else False,
+        'createdAt': review.created_at,
+        'updatedAt': review.updated_at,
     }

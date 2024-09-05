@@ -1,1 +1,1 @@
-from .get import product_get
+from .get import product_routes

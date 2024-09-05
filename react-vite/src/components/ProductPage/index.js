@@ -1,0 +1,1 @@
+import ProductDetails from "./ProductDetailPage";

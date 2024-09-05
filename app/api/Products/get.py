@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify
 from flask_login import current_user, login_required
 from app.models import Product, ProductImage, db, ProductReview
 from sqlalchemy.orm import joinedload
-from app.api.helper import make_dict
+from app.api.helper import make_dict, review_dict
 
 product_get = Blueprint('product-get', __name__)
 
@@ -11,7 +11,7 @@ product_get = Blueprint('product-get', __name__)
 @product_get.route('', methods=['GET'])
 def get_all_products():
     try:
-        products = Product.query.options(joinedload(Product.product_images))
+        products = Product.query.options(joinedload(Product.product_images), joinedload(Product.product_reviews))
         products_data = [make_dict(product) for product in products]
         return jsonify(products_data)
     except Exception as e:
@@ -22,7 +22,7 @@ def get_all_products():
 @product_get.route('<int:product_id>', methods=['GET'])
 def get_product_by_id(product_id):
     try:
-        product = Product.query.options(joinedload(Product.product_images)).get_or_404(product_id)
+        product = Product.query.options(joinedload(Product.product_images), joinedload(Product.product_reviews)).get_or_404(product_id)
         product_data = make_dict(product)
         return jsonify(product_data)
     except Exception as e:
@@ -44,11 +44,15 @@ def get_users_products():
 @product_get.route('<int:product_id>/reviews', methods=['GET'])
 def get_product_reviews(product_id):
     try:
-        reviews = ProductReview.query.filter_by(product_id=product_id).all()
+        reviews = (
+                    ProductReview
+                   .query
+                   .filter_by(product_id=product_id)
+                #    .options(joinedload(ProductReview.user))
+                   .all()
+                )
         # if not reviews:
         #     return jsonify({'error': 'No reviews for this product'}), 404
-        return jsonify([review.to_dict() for review in reviews]), 200
+        return jsonify([review_dict(review) for review in reviews]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-

@@ -1,14 +1,14 @@
-from flask import jsonify, request
+from flask import jsonify, request, Blueprint
 from flask_login import current_user, login_required
-from app.models import Product, ProductImage, db, ProductReview
-from sqlalchemy.orm import joinedload
+from app.models import Product, db, ProductReview
 from app.api.helper import make_dict, review_dict
 from app.forms import ProductForm, ReviewForm
-from . import product_routes
+
+product_post = Blueprint('product-post', __name__)
 
 '''create a new product'''
 
-@product_routes.route('', methods=['POST'])
+@product_post.route("", methods=['POST', 'PUT'])
 @login_required
 def create_product():
     form = ProductForm()
@@ -18,6 +18,7 @@ def create_product():
             seller_id= current_user.id,
             name = form.data['name'],
             price = form.data['price'],
+            deleted=False,
             description= form.data['description']
         )
         db.session.add(product)
@@ -28,14 +29,14 @@ def create_product():
 
 '''Post a new review for a product by product id'''
 
-@product_routes.route('/<int:product_id>/reviews', methoda=['POST'])
+@product_post.route('/<int:product_id>/reviews', methods=['POST'])
 @login_required
 def submit_product_review(product_id):
     form = ReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         review = ProductReview(
-            product_id,
+            product_id=product_id,
             review= form.data['review'],
             stars = form.data['stars'],
             user_id = current_user.id
@@ -43,11 +44,11 @@ def submit_product_review(product_id):
         db.session.add(review)
         db.session.commit()
 
-        return jsonify({'review_id': review.id}), 201
+        return jsonify({'review_id': review_dict(review).id}), 201
     return jsonify(form.errors), 400
 
-@product_routes.route('/<int:product_id>/images', methods=['POST'])
-@login_required
-def submit_product_image(product_id):
-    #need to review how to implement aws
-    pass
+# @product_post.route('/<int:product_id>/images', methods=['POST'])
+# @login_required
+# def submit_product_image(product_id):
+#     #need to review how to implement aws
+#     pass

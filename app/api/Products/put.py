@@ -1,14 +1,14 @@
 from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
-from app.models import Product, ProductImage, db, ProductReview
-from sqlalchemy.orm import joinedload
-from app.api.helper import make_dict, review_dict
+from app.models import Product, db
+from app.api.helper import make_dict
 from app.forms import ProductForm
-from . import product_routes
+
+product_put = Blueprint('product-put', __name__)
 
 '''edit an existing product'''
 
-@product_routes.route('/<int:product_id>', methods=['PUT'])
+@product_put.route('/<int:product_id>', methods=['PUT'])
 @login_required
 def edit_product(product_id):
     product = Product.query.get_or_404(product_id)

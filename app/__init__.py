@@ -10,7 +10,10 @@ from sqlalchemy import text
 from .api import (
     user_routes,
     auth_routes,
-    product_routes
+    product_routes,
+    product_post,
+    product_delete,
+    product_put
 )
 from .config import Config
 from .models import db, SCHEMA, User
@@ -40,6 +43,10 @@ CORS(app)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(product_routes, url_prefix='/api/products')
+app.register_blueprint(product_post, url_prefix='/api/products')
+app.register_blueprint(product_delete, url_prefix='/api/products')
+app.register_blueprint(product_put, url_prefix='/api/products')
+
 
 
 # Before any request is made, set the search path so that direct queries will look in the

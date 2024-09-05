@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request
 from flask_login import current_user, login_required
 from app.models import Product, ProductImage, db, ProductReview
 from sqlalchemy.orm import joinedload
@@ -45,3 +45,9 @@ def submit_product_review(product_id):
 
         return jsonify({'review_id': review.id}), 201
     return jsonify(form.errors), 400
+
+@product_routes.route('/<int:product_id>/images', methods=['POST'])
+@login_required
+def submit_product_image(product_id):
+    #need to review how to implement aws
+    pass

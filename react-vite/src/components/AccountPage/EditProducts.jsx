@@ -9,7 +9,7 @@ function EditProductTiles() {
         fetch(`/api/products/${productId}`, {
             method: 'DELETE'
         })
-        // products = await fetch('/api/products/current').json()
+        products = (await fetch('/api/products/current')).json()
     }
 
     return (

@@ -42,7 +42,7 @@ def get_product_by_id(product_id):
 @login_required
 def get_users_products():
     try:
-        products = Product.query.options(joinedload(Product.product_images)).filter_by(seller_id=current_user.id).all()
+        products = Product.query.options(joinedload(Product.product_images)).filter_by(seller_id=current_user.id, deleted=False).all()
         product_data = [make_dict(product) for product in products]
         return jsonify(product_data)
     except Exception as e:

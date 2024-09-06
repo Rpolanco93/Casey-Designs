@@ -1,10 +1,12 @@
-import { createBrowserRouter, json } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import LandingPage from '../components/LandingPage';
 import ProductDetails from '../components/ProductPage/ProductDetailPage';
-import { productDetailsLoader } from '../components/loaders';
+import AccountPage from '../components/AccountPage/AccountPageLayout';
+import EditProductTiles from '../components/AccountPage/EditProducts';
+import EditProduct from '../components/ProductPage/EditProductPage';
 
 export const router = createBrowserRouter([
   {
@@ -27,13 +29,41 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "/products/:productId",
+        path: 'account',
+        element: <AccountPage />,
+        children: [
+          {
+            path: '/account/products',
+            element: <EditProductTiles />,
+            loader: async () => {
+              return fetch('/api/products/current')
+            }
+          },
+          {
+            path: '/account/categories',
+            element: <h2>category details</h2>
+          },
+          {
+            path: '/account/orders',
+            element: <h2>order details</h2>
+          }
+        ]
+      },
+      {
+        path: "products/:productId",
         element: <ProductDetails />,
         loader: async ({params}) => {
           return await Promise.all([
               (await fetch(`/api/products/${params.productId}`)).json(),
               (await fetch(`/api/products/${params.productId}/reviews`)).json()
           ])
+        }
+      },
+      {
+        path: "products/:productId/edit",
+        element: <EditProduct />,
+        loader: async ({params}) => {
+          return fetch(`/api/products/${params.productId}`)
         }
       },
     ],

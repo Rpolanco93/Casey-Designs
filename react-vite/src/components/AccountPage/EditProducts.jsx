@@ -1,9 +1,8 @@
-import { useNavigate, useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 
 function EditProductTiles() {
     let products = useLoaderData()
-    const navigate = useNavigate()
 
     const deleteItem = async (productId) => {
         fetch(`/api/products/${productId}`, {
@@ -19,9 +18,9 @@ function EditProductTiles() {
             <h3 className="my-product-name-sc">{product.name}</h3>
             <p>{product.price}</p>
             <div className="edit-product">
-                <a href={`/products/${product.id}/edit`}>
+                <Link to={`/products/${product.id}/edit`}>
                     <button className="edit-product">Edit Item</button>
-                </a>
+                </Link>
             </div>
             <div className="delete-product">
                 <button className="remove-product" onClick={deleteItem}>Delete Item</button>

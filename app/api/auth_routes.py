@@ -11,6 +11,8 @@ def make_dict(user):
     return {
         'id': user.id,
         'first_name': user.first_name,
+        'username': user.username,
+        'email': user.email,
         'roles': [role.to_dict() for role in user.user_roles]
     }
 

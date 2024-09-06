@@ -75,7 +75,8 @@ def make_dict(product):
         'price': product.price,
         'previewImage': preview_image,
         'avgRating': avg_rating,
-        'reviewCount': review_count
+        'reviewCount': review_count,
+        'isOwner': True if current_user.is_authenticated and current_user.id is product.seller_id else False,
     }
 
 '''function to make review returns with user data to dict'''
@@ -92,4 +93,5 @@ def review_dict(review: ProductReview) -> Dict[str, Any]:
         'reviewOwner': True if current_user.is_authenticated and current_user.id is owner['id'] else False,
         'createdAt': review.created_at,
         'updatedAt': review.updated_at,
+        'userId': review.user_id
     }

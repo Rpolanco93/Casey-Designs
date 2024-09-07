@@ -15,9 +15,9 @@ function AccountPage() {
       };
 
     const menu = [
-        ['products', 'Edit Products'],
-        ['categories', 'Edit Categories'],
-        ['orders', 'View Orders']
+        ['products', 'Products'],
+        ['categories', 'Categories'],
+        ['orders', 'Orders']
     ]
 
     return user ? (
@@ -36,7 +36,9 @@ function AccountPage() {
                     </div>
                 </div>
             </div>
-            <Outlet />
+            <div>
+                <Outlet />
+            </div>
         </div>
     ) : <Navigate to={'/'}></Navigate>
 }

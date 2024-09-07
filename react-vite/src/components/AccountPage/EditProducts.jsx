@@ -1,14 +1,14 @@
-import { Link, useLoaderData } from 'react-router-dom';
-
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
+import { useRevalidator } from "react-router-dom";
 
 function EditProductTiles() {
     let products = useLoaderData()
+    const revalidator = useRevalidator();
 
     const deleteItem = async (productId) => {
-        fetch(`/api/products/${productId}`, {
+        await fetch(`/api/products/${productId}`, {
             method: 'DELETE'
         })
-        products = (await fetch('/api/products/current')).json()
     }
 
     return (
@@ -18,7 +18,7 @@ function EditProductTiles() {
             <h3 className="my-product-name-sc">{product.name}</h3>
             <p>{product.price}</p>
             <div className="edit-product">
-                <Link to={`/products/${product.id}/edit`}>
+                <Link to={`/account/products/${product.id}/edit`}>
                     <button className="edit-product">Edit Item</button>
                 </Link>
             </div>

@@ -1,16 +1,24 @@
-import { Link, useLoaderData, useNavigate } from 'react-router-dom';
-import { useRevalidator } from "react-router-dom";
+import { Link, useLoaderData, useRevalidator } from 'react-router-dom';
+import { useModal } from '../../context/Modal';
+import { DeleteProductModal } from './DeleteProductModal';
 
 function EditProductTiles() {
     let products = useLoaderData()
-    const revalidator = useRevalidator();
-    const navigate = useNavigate()
+    let revalidator = useRevalidator()
+    const { setModalContent, closeModal } = useModal();
 
-    const deleteItem = async (productId) => {
-        await fetch(`/api/products/${productId}`, {
-            method: 'delete'
-        })
-    }
+    // handle on click for delete a product
+    const handleDeleteProduct = (productId) => {
+        setModalContent(
+            <DeleteProductModal
+                productId={productId}
+                onClose={() => {
+                    revalidator.revalidate()
+                    closeModal()
+                }}
+            />
+        );
+    };
 
     return (
         <>
@@ -31,7 +39,7 @@ function EditProductTiles() {
                     </Link>
                 </div>
                 <div className="delete-product">
-                    <button className="remove-product" onClick={() => deleteItem(product.id)}>Delete Item</button>
+                    <button className="remove-product" onClick={() => handleDeleteProduct(product.id)}>Delete Item</button>
                 </div>
             </div>
             ))}

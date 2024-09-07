@@ -1,4 +1,4 @@
-import {Form, useActionData, useLoaderData, useNavigate} from 'react-router-dom';
+import {Form, Link, useActionData, useLoaderData, useNavigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useEffect} from 'react';
 
@@ -9,7 +9,7 @@ function ProductForm() {
     const user = useSelector(state => state.session.user);
     const formMethod = product && product.id ? 'put' : 'post';
     const actionUrl = product ? `/account/products/${product.id}/edit` : '/account/products/new';
-    const errors = useActionData() || {};
+    const actionResults = useActionData() || {};
 
     useEffect(() => {
         if (!user) {
@@ -28,7 +28,7 @@ function ProductForm() {
                             id='name' type='text' defaultValue={product.name} name='name'
                             required minLength={5} maxLength={50}
                         />
-                    {errors.name && <p>{errors.name}</p>}
+                    {/* {actionResults.name && <p>{actionResults.name}</p>} */}
                 </div>
                 <div className="product-description">
                     <label htmlFor='description'>Description</label>
@@ -37,7 +37,7 @@ function ProductForm() {
                             name='description' id='description' defaultValue={product.description}
                             required maxLength='1000'
                         />
-                    {errors.description && <p>{errors.description}</p>}
+                    {/* {actionResults.description && <p>{actionResults.description}</p>} */}
                 </div>
                 <div className="product-price">
                     <label htmlFor='price'>Price</label>
@@ -46,7 +46,7 @@ function ProductForm() {
                             id='price' type='number' defaultValue={product.price} name='price'
                             required min='0' step='1.00'
                         />
-                    {errors.price && <p>{errors.price}</p>}
+                    {/* {actionResults.price && <p>{actionResults.price}</p>} */}
                 </div>
                 <div className="product-images">
                     <label htmlFor='previewImage'>Upload images for your product.</label>
@@ -54,7 +54,7 @@ function ProductForm() {
                         <input
                             id='previewImage' type='url' defaultValue={product.previewImage} name='image1'
                         />
-                        {errors.previewImage && <p>{errors.previewImage}</p>}
+                        {/* {actionResults.previewImage && <p>{actionResults.previewImage}</p>} */}
                         <input
                             type='url' defaultValue={product.imageOne} name='image2'
                         />
@@ -67,7 +67,16 @@ function ProductForm() {
                             defaultValue={product.imageThree}
                         />
                 </div>
-                <button type="submit">{product.id ? 'Update Product' : 'Create Product'}</button>
+                {actionResults.message ? <>
+                    <p>{actionResults.message}</p>
+                    <Link to={'/account/products'}>
+                        <button>View Account Products</button>
+                    </Link>
+                    <Link to={`/products/${product.id}`}>
+                        <button>View Product Page</button>
+                    </Link>
+                    </> : <button type="submit">{product.id ? 'Update Product' : 'Create Product'}</button>
+                }
             </Form>
         </div>
     )

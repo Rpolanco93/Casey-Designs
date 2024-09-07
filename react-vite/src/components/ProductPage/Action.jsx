@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 export const action = async ({ params, request }) => {
     const form = await request.formData();
     const data = Object.fromEntries(form);
@@ -15,9 +17,11 @@ export const action = async ({ params, request }) => {
             },
             body: JSON.stringify(productSubmission)
         })
-        return {submitEdit}
+
+        const res = await submitEdit.json()
+        return {res: {...res}, method: 'PUT', message: 'Successfully Updated Item!'}
+
     } else if (request.method === 'POST') {
-        console.log('its working')
         const submitPost = await fetch(`/api/products`, {
             method:'post',
             headers: {
@@ -26,7 +30,8 @@ export const action = async ({ params, request }) => {
             body: JSON.stringify(productSubmission)
         })
 
-        return {submitPost}
+        const res = await submitPost.json()
+        return {res: {...res}, method: 'POST', message: 'Successfully Created Item!'}
     }
     return {error: 'incorrect method'}
 }

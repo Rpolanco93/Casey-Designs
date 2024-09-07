@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigation, useRouteLoaderData } from "react-router-dom";
+import { useNavigation, useRouteLoaderData } from "react-router-dom";
 import ProductTiles from "../ProductTiles/ProductTiles";
 
 function LandingPage() {
@@ -7,7 +7,7 @@ function LandingPage() {
 
     return (
         <div>
-            {state === 'loading' ? <h1>Loading</h1> :
+            {state === 'this be loading' ? <h1>Loading</h1> :
             products.map(element => (
                 <ProductTiles key={element.id} product={element} />
             ))

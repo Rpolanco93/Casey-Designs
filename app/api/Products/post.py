@@ -8,7 +8,7 @@ product_post = Blueprint('product-post', __name__)
 
 '''create a new product'''
 
-@product_post.route("", methods=['POST', 'PUT'])
+@product_post.route("", methods=['POST'])
 @login_required
 def create_product():
     form = ProductForm()
@@ -21,6 +21,7 @@ def create_product():
             deleted=False,
             description= form.data['description']
         )
+
         db.session.add(product)
         db.session.commit()
 

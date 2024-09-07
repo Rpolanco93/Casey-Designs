@@ -12,11 +12,9 @@ product_put = Blueprint('product-put', __name__)
 @login_required
 def edit_product(product_id):
     product = Product.query.get_or_404(product_id)
-
     if product.seller_id == current_user.id:
         form = ProductForm()
         form['csrf_token'].data = request.cookies['csrf_token']
-
         if form.validate_on_submit():
             product.name = form.data['name']
             product.price = form.data['price']

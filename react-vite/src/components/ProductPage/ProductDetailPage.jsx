@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaPlusCircle, FaRegComment, FaStar } from 'react-icons/fa';
 import './ProductPage.css'
@@ -6,10 +6,11 @@ import './ProductPage.css'
 function ProductDetails() {
     const [product, reviews] = useLoaderData()
     const user = useSelector(state => state.session.user)
+    const navigate = useNavigate()
 
     // handle on click for add to cart
     const handleAddToCart = (productId) => {
-        // add code to add to cart
+        e.preventDefault()
         return
     };
 
@@ -44,7 +45,7 @@ function ProductDetails() {
                     <div className="product-price-d-page"><h3>Price: ${product.price}</h3><p>+tx</p></div>
                     <button
                         className='product-details-add'
-                        onClick={() => handleAddToCart(product.id)}
+                        onClick={() => user && product.isOwner ? navigate(`/account/products/${product.id}/edit`) : handleAddToCart(product.id)}
                     >
                         {user && product.isOwner ? 'Edit Product' : 'Add to Cart'}
                     </button>

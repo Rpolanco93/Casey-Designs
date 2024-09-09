@@ -8,7 +8,7 @@ function ProductForm() {
 
     const user = useSelector(state => state.session.user);
     const formMethod = product && product.id ? 'put' : 'post';
-    const actionUrl = product ? `/account/products/${product.id}/edit` : '/account/products/new';
+    const actionUrl = product && product.id ? `/account/products/${product.id}/edit` : '/account/products/new';
     const actionResults = useActionData() || {};
 
     useEffect(() => {
@@ -67,16 +67,16 @@ function ProductForm() {
                             defaultValue={product.imageThree}
                         />
                 </div>
-                {actionResults.message ? <>
-                    <p>{actionResults.message}</p>
-                    <Link to={'/account/products'}>
-                        <button>View Account Products</button>
-                    </Link>
-                    <Link to={`/products/${product.id}`}>
-                        <button>View Product Page</button>
-                    </Link>
-                    </> : <button type="submit">{product.id ? 'Update Product' : 'Create Product'}</button>
-                }
+                {actionResults.error != undefined && !actionResults.error ? <>
+                     <p>{actionResults.message}</p>
+                     <Link to={'/account/products'}>
+                         <button>View Account Products</button>
+                     </Link>
+                     <Link to={`/products/${product.id}`}>
+                         <button>View Product Page</button>
+                     </Link>
+                     </> : <button type="submit">{product.id ? 'Update Product' : 'Create Product'}</button>
+                 }
             </Form>
         </div>
     )

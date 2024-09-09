@@ -7,7 +7,7 @@ import ProductDetails from '../components/ProductPage/ProductDetailPage';
 import AccountPage from '../components/AccountPage/AccountPageLayout';
 import EditProductTiles from '../components/AccountPage/AccountProducts';
 import ProductForm from '../components/ProductPage/EditProductPage';
-import action from '../components/ProductPage/Action';
+import { productAction } from '../components/ProductPage/Action';
 
 export const router = createBrowserRouter([
   {
@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
           {
             path: "/account/products/new",
             element: <ProductForm />,
-            // action:
+            action: productAction
           },
           {
             path: "/account/products/:productId/edit",
@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
             loader: async ({params}) => {
               return fetch(`/api/products/${params.productId}`)
             },
-            action:action
+            action: productAction
           },
         ]
       },

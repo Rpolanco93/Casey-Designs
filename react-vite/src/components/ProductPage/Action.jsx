@@ -1,39 +1,55 @@
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
-export const action = async ({ params, request }) => {
+export const productAction = async ({ params, request }) => {
     const form = await request.formData();
     const data = Object.fromEntries(form);
-    const productSubmission = {
+
+    if (!(new Set(['POST', 'PUT']).has(request.method.toUpperCase()))) {
+         return {
+            error: true,
+            message: 'Unsupported HTTP method.'
+        };
+    }
+
+    const url = params.productId ? `/api/products/${params.productId}` : `/api/products`;
+    const product = {
         name: data.name,
         price: data.price,
         description: data.description
+    };
+
+    const response = await fetch(url, {
+        method: request.method,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(product)
+    });
+
+    try {
+        const json = await response.json()
+
+        //Check if response has validation errors
+        if (response.status == 400) {
+            return {
+                error: true,
+                ...json
+            }
+        }
+
+        //Every worked as expected
+        if (params.productId) {
+            return {res: {...json}, error: false, message: 'Successfully Updated Item!'}
+        } else {
+            return redirect(`/products/${json.id}`)
+        }
+    } catch (error) {
+         return {
+            error: true,
+            message: error.message
+        }
     }
 
-    if (request.method === 'PUT') {
-        const submitEdit = await fetch(`/api/products/${params.productId}`, {
-            method:'put',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(productSubmission)
-        })
+ }
 
-        const res = await submitEdit.json()
-        return {res: {...res}, method: 'PUT', message: 'Successfully Updated Item!'}
-
-    } else if (request.method === 'POST') {
-        const submitPost = await fetch(`/api/products`, {
-            method:'post',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(productSubmission)
-        })
-
-        const res = await submitPost.json()
-        return {res: {...res}, method: 'POST', message: 'Successfully Created Item!'}
-    }
-    return {error: 'incorrect method'}
-}
-
-export default action;
+ export default productAction;

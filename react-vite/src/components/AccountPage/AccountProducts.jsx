@@ -31,7 +31,9 @@ function EditProductTiles() {
             {products.map(product => (
             <div className="my-product-tile" key={product.id}>
                 <img src={product.previewImage} className="my-product-images" />
-                <h3 className="my-product-name-sc">{product.name}</h3>
+                <Link to={`/products/${product.id}`}>
+                    <h3 className="my-product-name-sc">{product.name}</h3>
+                </Link>
                 <p>{product.price}</p>
                 <div className="edit-product">
                     <Link to={`/account/products/${product.id}/edit`}>

@@ -1,12 +1,15 @@
 import { useNavigate, useLoaderData } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaPlusCircle, FaRegComment, FaStar } from 'react-icons/fa';
+import { useModal } from '../../context/Modal';
+import { AddReviewModal, EditReviewModal, DeleteReviewModal } from '../ReviewsModal/ReviewFormModal';
 import './ProductPage.css'
 
 function ProductDetails() {
     const [product, reviews] = useLoaderData()
     const user = useSelector(state => state.session.user)
     const navigate = useNavigate()
+    const { setModalContent, closeModal } = useModal();
 
     // handle on click for add to cart
     const handleAddToCart = (productId) => {
@@ -16,8 +19,12 @@ function ProductDetails() {
 
     // handle on click for add a review
     const handleAddReview = () => {
-        // add code to add review
-        return
+        setModalContent(
+            <AddReviewModal
+                productId={product.id}
+                onClose={closeModal}
+            />
+        )
     };
 
     // handle on click for edit a review

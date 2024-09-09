@@ -6,8 +6,8 @@ import LandingPage from '../components/LandingPage';
 import ProductDetails from '../components/ProductPage/ProductDetailPage';
 import AccountPage from '../components/AccountPage/AccountPageLayout';
 import EditProductTiles from '../components/AccountPage/AccountProducts';
-import ProductForm from '../components/ProductPage/EditProductPage';
-import { productAction } from '../components/ProductPage/Action';
+import ProductForm from '../components/ProductPage/ProductForm';
+import { productAction, reviewAction } from '../components/ProductPage/Action';
 
 export const router = createBrowserRouter([
   {
@@ -75,7 +75,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "products/:productId/review/new",
-        element: <p>Coming soon</p>
+        element: <p>testing</p>,
+        loader: reviewAction
       },
     ],
   },

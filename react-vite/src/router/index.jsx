@@ -73,6 +73,10 @@ export const router = createBrowserRouter([
           ])
         }
       },
+      {
+        path: "products/:productId/review/new",
+        element: <p>Coming soon</p>
+      },
     ],
   },
 ]);

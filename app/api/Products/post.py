@@ -33,6 +33,14 @@ def create_product():
 @product_post.route('/<int:product_id>/reviews', methods=['POST'])
 @login_required
 def submit_product_review(product_id):
+    data = ProductReview.query.get((product_id, current_user.id))
+    exist = {}
+    if data:
+        exist = review_dict(data)
+
+    if exist and exist['userId']:
+        return {'error': 'User already reviewed this item'}
+
     form = ReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -45,7 +53,7 @@ def submit_product_review(product_id):
         db.session.add(review)
         db.session.commit()
 
-        return jsonify({'review_id': review_dict(review).id}), 201
+        return jsonify({'review': review_dict(review)}), 201
     return jsonify(form.errors), 400
 
 # @product_post.route('/<int:product_id>/images', methods=['POST'])

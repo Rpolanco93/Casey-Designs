@@ -5,8 +5,9 @@ import Layout from './Layout';
 import LandingPage from '../components/LandingPage';
 import ProductDetails from '../components/ProductPage/ProductDetailPage';
 import AccountPage from '../components/AccountPage/AccountPageLayout';
-import EditProductTiles from '../components/AccountPage/EditProducts';
-import EditProduct, { productAction } from '../components/ProductPage/EditProductPage';
+import EditProductTiles from '../components/AccountPage/AccountProducts';
+import ProductForm from '../components/ProductPage/EditProductPage';
+import { productAction } from '../components/ProductPage/Action';
 
 export const router = createBrowserRouter([
   {
@@ -48,17 +49,17 @@ export const router = createBrowserRouter([
             element: <h2>order details</h2>
           },
           {
+            path: "/account/products/new",
+            element: <ProductForm />,
+            action: productAction
+          },
+          {
             path: "/account/products/:productId/edit",
-            element: <EditProduct />,
+            element: <ProductForm />,
             loader: async ({params}) => {
               return fetch(`/api/products/${params.productId}`)
             },
-            action:async ({ params, request }) => {
-              let formData = await request.formData();
-              console.log(formData.get('price'))
-              // now that it's working i need to
-              // add functionality to post to db
-            }
+            action: productAction
           },
         ]
       },
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
               (await fetch(`/api/products/${params.productId}/reviews`)).json()
           ])
         }
+      },
+      {
+        path: "products/:productId/review/new",
+        element: <p>Coming soon</p>
       },
     ],
   },

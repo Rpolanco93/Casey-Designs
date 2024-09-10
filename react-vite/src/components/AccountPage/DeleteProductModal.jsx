@@ -12,7 +12,7 @@ export const DeleteProductModal = ({ productId, onClose }) => {
             <h2>Confirm Delete</h2>
             <p>Are you sure you want to delete this product?</p>
             <div className="cancel-delete"><button onClick={handleSubmit}>Yes, Delete</button></div>
-            <button ç>Cancel</button>
+            <button onClick={onClose}>Cancel</button>
         </div>
     );
 };

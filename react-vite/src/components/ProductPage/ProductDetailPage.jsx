@@ -1,8 +1,10 @@
-import { useNavigate, useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData, useFetcher} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaPlusCircle, FaRegComment, FaStar } from 'react-icons/fa';
 import { useModal } from '../../context/Modal';
-import { AddReviewModal, EditReviewModal, DeleteReviewModal } from '../ReviewsModal/ReviewFormModal';
+import { AddReviewModal } from '../ReviewsModal/ReviewFormModal';
+import { useEffect } from 'react';
+import { DeleteReviewModal } from '../ReviewsModal/ReviewDeleteModal';
 import './ProductPage.css'
 
 function ProductDetails() {
@@ -10,10 +12,28 @@ function ProductDetails() {
     const user = useSelector(state => state.session.user)
     const navigate = useNavigate()
     const { setModalContent, closeModal } = useModal();
+    const createReviewFetcher = useFetcher({ key: 'add-review'});
+    const deleteReviewFetcher = useFetcher({key : 'delete-review'})
+
+    useEffect(() => {
+        console.log('in create')
+        let actionResults = createReviewFetcher.data || {};
+        console.log('actionresul', actionResults)
+        if (actionResults.error !== undefined && !actionResults.error) {
+            console.log('closing create')
+            closeModal()
+        }
+    }, [createReviewFetcher]);
+
+    useEffect(() => {
+        let actionResults = deleteReviewFetcher.data || {};
+        if (actionResults.error !== undefined && !actionResults.error) {
+            closeModal()
+        }
+    }, [deleteReviewFetcher]);
 
     // handle on click for add to cart
-    const handleAddToCart = (productId) => {
-        e.preventDefault()
+    const handleAddToCart = () => {
         return
     };
 
@@ -28,15 +48,19 @@ function ProductDetails() {
     };
 
     // handle on click for edit a review
-    const handleEditReview = (review) => {
+    const handleEditReview = () => {
         // add code for edit review
         return
     };
 
     // handle on click for delete a review
-    const handleDeleteReview = (review) => {
-        // add code for delete review
-        return
+    const handleDeleteReview = async () => {
+        setModalContent(
+            <DeleteReviewModal
+                productId={product.id}
+                onClose={closeModal}
+            />
+        )
     };
 
     return (
@@ -64,7 +88,7 @@ function ProductDetails() {
                     <button onClick={handleAddReview}><FaPlusCircle/>Add a Review</button>
                 ) : <button onClick={handleAddReview} disabled ><FaPlusCircle/>Add a Review</button>
                 }
-                {product.isOwner && <p>Add a review is disabled for the Product's owner</p>}
+                {product.isOwner && <p>Add a review is disabled for the Product&apos;s owner</p>}
                 {reviews.length && reviews.map(review => (
                     <div key={review.userId} className='product-details-review'>
                         <h5>{review.user.firstName}</h5>
@@ -73,7 +97,7 @@ function ProductDetails() {
                         {user && review.userId === user.id && (
                             <div className="review-edit-delete">
                                 <button onClick={() => handleEditReview(review)}>Edit</button>
-                                <button onClick={() => handleDeleteReview(review)}>Delete</button>
+                                <button onClick={() => handleDeleteReview()}>Delete</button>
                             </div>
                         )}
                     </div>

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
@@ -64,20 +64,25 @@ export const router = createBrowserRouter([
         ]
       },
       {
-        path: "products/:productId",
-        element: <ProductDetails />,
-        loader: async ({params}) => {
-          return await Promise.all([
-              (await fetch(`/api/products/${params.productId}`)).json(),
-              (await fetch(`/api/products/${params.productId}/reviews`)).json()
-          ])
-        }
-      },
-      {
-        path: "products/:productId/review/new",
-        element: <p>testing</p>,
-        loader: reviewAction
-      },
+        path: "/products",
+        element: <Outlet/>,
+        children: [
+            {
+                path: ":productId",
+                element: <ProductDetails/>,
+                loader: async ({params}) => {
+                    return await Promise.all([
+                        (await fetch(`/api/products/${params.productId}`)).json(),
+                        (await fetch(`/api/products/${params.productId}/reviews`)).json()
+                    ])
+                }
+            },
+            {
+                path: ":productId/review",
+                action: reviewAction
+            }
+        ]
+    }
     ],
   },
 ]);

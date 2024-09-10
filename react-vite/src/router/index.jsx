@@ -82,6 +82,10 @@ export const router = createBrowserRouter([
                 action: reviewAction
             }
         ]
+    },
+    {
+      path: 'data/reset-fetcher',
+      action: () => null
     }
     ],
   },

@@ -130,3 +130,7 @@ export const productAction = async ({ params, request }) => {
         }
     }
  }
+
+ export const fetcherReset = (fetcher) => {
+    fetcher.submit({}, {action: '/data/reset-fetcher', method: 'post'})
+}

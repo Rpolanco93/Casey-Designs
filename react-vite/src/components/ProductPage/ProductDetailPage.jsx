@@ -5,6 +5,7 @@ import { useModal } from '../../context/Modal';
 import { AddReviewModal } from '../ReviewsModal/ReviewFormModal';
 import { useEffect } from 'react';
 import { DeleteReviewModal } from '../ReviewsModal/ReviewDeleteModal';
+import { fetcherReset } from './Action';
 import './ProductPage.css'
 
 function ProductDetails() {
@@ -18,9 +19,9 @@ function ProductDetails() {
     useEffect(() => {
         console.log('in create')
         let actionResults = createReviewFetcher.data || {};
-        console.log('actionresul', actionResults)
+
         if (actionResults.error !== undefined && !actionResults.error) {
-            console.log('closing create')
+            fetcherReset(createReviewFetcher)
             closeModal()
         }
     }, [createReviewFetcher]);
@@ -28,6 +29,7 @@ function ProductDetails() {
     useEffect(() => {
         let actionResults = deleteReviewFetcher.data || {};
         if (actionResults.error !== undefined && !actionResults.error) {
+            fetcherReset(deleteReviewFetcher)
             closeModal()
         }
     }, [deleteReviewFetcher]);

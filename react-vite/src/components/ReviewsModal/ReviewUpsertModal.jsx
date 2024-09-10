@@ -64,7 +64,7 @@ export const ReviewUpsertModal = ({productId, onClose}) => {
         <div className="review-form-modal">
              <Suspense fallback={<PacmanLoader/>}>
                 <Await
-                    resolve={promise}
+                    resolve={promise.promise}
                     errorElement={<p>Error loading review!</p>}
                 >
                     {

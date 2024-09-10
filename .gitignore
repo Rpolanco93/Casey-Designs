@@ -8,3 +8,4 @@ __pycache__/
 .idea
 generate.sh
 migrations/tools/bin/flyway-*
+node_modules

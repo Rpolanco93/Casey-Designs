@@ -1,11 +1,11 @@
-import { redirect } from "react-router-dom";
+import {redirect} from "react-router-dom";
 
-export const productAction = async ({ params, request }) => {
+export const productAction = async ({params, request}) => {
     const form = await request.formData();
     const data = Object.fromEntries(form);
 
     if (!(new Set(['POST', 'PUT']).has(request.method.toUpperCase()))) {
-         return {
+        return {
             error: true,
             message: 'Unsupported HTTP method.'
         };
@@ -30,7 +30,7 @@ export const productAction = async ({ params, request }) => {
         const json = await response.json()
 
         //Check if response has validation errors
-        if (response.status == 400) {
+        if (response.status === 400) {
             return {
                 error: true,
                 ...json
@@ -44,93 +44,50 @@ export const productAction = async ({ params, request }) => {
             return redirect(`/products/${json.id}`)
         }
     } catch (error) {
-         return {
+        return {
             error: true,
             message: error.message
         }
     }
+}
 
- }
-
- export const reviewAction = async ({params, request}) => {
+export const reviewAction = async ({params, request}) => {
     const form = await request.formData();
     const data = Object.fromEntries(form);
 
-    if ((new Set(['POST', 'PUT']).has(request.method.toUpperCase()))) {
-        const something = await reviewUpsert(params, request, data)
-        return something
-    } else if ((new Set(['DELETE']).has(request.method.toUpperCase()))) {
-        const somethingelse = await reviewDelete(params, request, data)
-        return somethingelse
-   } else {
-        return {message: 'unsupported'}
-   }
- }
+    if ((new Set(['POST', 'PUT', 'DELETE']).has(request.method.toUpperCase()))) {
+        const url = `/api/products/${params.productId}/review`
 
- const reviewDelete = async (params, request, data) => {
-    const url = `/api/reviews/${params.productId}`
+        const response = await fetch(url, {
+            method: request.method,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        });
 
-    const response = await fetch(url, {
-        method: request.method
-    });
+        try {
+            const json = await response.json()
 
-    try {
-        const json = await response.json()
-
-        //Check if response has validation errors
-        if (response.status == 400) {
-            return {
-                error: true,
-                ...json
+            //Check if response has validation errors
+            if (!response.ok) {
+                return reply(true, response.statusText, json);
             }
-        }
 
-        //Every worked as expected
-        return {res: {...json}, error: false, message: 'Review Deleted!'}
-        // return redirect(`/products/${params.productId}`)
-
-    } catch (error) {
-         return {
-            error: true,
-            message: error.message
+            //Every worked as expected
+            return reply(false, `Review ${request.method.toUpperCase()} Completed!`);
+        } catch (error) {
+            return reply(true, error.message);
         }
+    } else {
+        return reply(true, `Unsupported HTTP method: ${request.method.toUpperCase()}`)
     }
- }
+}
 
- const reviewUpsert = async (params, request, data) => {
-    const url = `/api/products/${params.productId}/reviews`
-
-    const response = await fetch(url, {
-        method: request.method,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data)
-    });
-
-    try {
-        const json = await response.json()
-
-        //Check if response has validation errors
-        if (response.status == 400) {
-            return {
-                error: true,
-                ...json
-            }
-        }
-
-        //Every worked as expected
-        return {res: {...json}, error: false, message: 'Review Created!'}
-        // return redirect(`/products/${params.productId}`)
-
-    } catch (error) {
-         return {
-            error: true,
-            message: error.message
-        }
-    }
- }
-
- export const fetcherReset = (fetcher) => {
-    fetcher.submit({}, {action: '/data/reset-fetcher', method: 'post'})
+const reply = (error, message, json = {}) => {
+    return {
+        error: error,
+        message: message,
+        ...json
+    };
 }

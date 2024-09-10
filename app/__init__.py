@@ -13,9 +13,7 @@ from .api import (
     product_routes,
     product_post,
     product_delete,
-    product_put,
-    review_submission,
-    review_delete_routes
+    product_put
 )
 from .config import Config
 from .models import db, SCHEMA, User
@@ -48,8 +46,6 @@ app.register_blueprint(product_routes, url_prefix='/api/products')
 app.register_blueprint(product_post, url_prefix='/api/products')
 app.register_blueprint(product_delete, url_prefix='/api/products')
 app.register_blueprint(product_put, url_prefix='/api/products')
-app.register_blueprint(review_submission, url_prefix='/api/products')
-app.register_blueprint(review_delete_routes, url_prefix='/api/reviews')
 
 
 # Before any request is made, set the search path so that direct queries will look in the

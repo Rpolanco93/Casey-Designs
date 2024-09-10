@@ -83,6 +83,8 @@ def get_all_products():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+'''Get all deleted products'''
+
 @product_routes.route('/deleted', methods=['GET'])
 def get_deleted_products():
     try:
@@ -97,5 +99,20 @@ def get_deleted_products():
         )
         products_data = [make_dict(product) for product in products]
         return jsonify(products_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+'''Get all a single review for a product'''
+
+@product_routes.route('<int:product_id>/review', methods=['GET'])
+def get_product_review(product_id):
+    try:
+        review = ProductReview.query.get((product_id, current_user.id))
+
+        if not review:
+            return {}, 200
+
+        # return jsonify(review.to_dict()), 200
+        return jsonify(review_dict(review))
     except Exception as e:
         return jsonify({"error": str(e)}), 500

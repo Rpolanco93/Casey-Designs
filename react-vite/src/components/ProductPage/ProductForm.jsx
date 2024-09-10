@@ -28,7 +28,7 @@ function ProductForm() {
                             id='name' type='text' defaultValue={product.name} name='name'
                             required minLength={5} maxLength={50}
                         />
-                    {/* {actionResults.name && <p>{actionResults.name}</p>} */}
+                    {actionResults.error != undefined && actionResults.error && actionResults.name && <p>{actionResults.name}</p>}
                 </div>
                 <div className="product-description">
                     <label htmlFor='description'>Description</label>
@@ -37,7 +37,7 @@ function ProductForm() {
                             name='description' id='description' defaultValue={product.description}
                             required maxLength='1000'
                         />
-                    {/* {actionResults.description && <p>{actionResults.description}</p>} */}
+                    {actionResults.error != undefined && actionResults.error && actionResults.description && <p>{actionResults.description}</p>}
                 </div>
                 <div className="product-price">
                     <label htmlFor='price'>Price</label>
@@ -46,7 +46,7 @@ function ProductForm() {
                             id='price' type='number' defaultValue={product.price} name='price'
                             required min='0' step='1.00'
                         />
-                    {/* {actionResults.price && <p>{actionResults.price}</p>} */}
+                    {actionResults.error != undefined && actionResults.error && actionResults.price && <p>{actionResults.price}</p>}
                 </div>
                 <div className="product-images">
                     <label htmlFor='previewImage'>Upload images for your product.</label>
@@ -54,7 +54,7 @@ function ProductForm() {
                         <input
                             id='previewImage' type='url' defaultValue={product.previewImage} name='image1'
                         />
-                        {/* {actionResults.previewImage && <p>{actionResults.previewImage}</p>} */}
+                        {actionResults.error != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
                         <input
                             type='url' defaultValue={product.imageOne} name='image2'
                         />

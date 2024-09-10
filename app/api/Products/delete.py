@@ -1,6 +1,6 @@
 from flask import jsonify, Blueprint
 from flask_login import current_user, login_required
-from app.models import Product, db
+from app.models import Product, db, ProductReview
 
 product_delete = Blueprint('product-delete', __name__)
 
@@ -27,3 +27,21 @@ def delete_product(product_id):
 def delete_product_image(product_id, image_id):
     # need to implement aws
     pass
+
+@product_delete.route("/<int:product_id>/review", methods=["DELETE"])
+@login_required
+def delete_review(product_id):
+    '''
+    Delete a Review by Id
+    '''
+    review = ProductReview.query.get((product_id, current_user.id))
+
+    if not review:
+        return {"errors": {"message": "Invalid review id"}}, 404
+
+    if review.user_id != current_user.id:
+        return {"errors": {"message": "You must own the review to remove it from the system"}}, 403
+
+    db.session.delete(review)
+    db.session.commit()
+    return {"message": "Successfully deleted review"}

@@ -66,7 +66,7 @@ function ProductDetails() {
                                 <h1>{product.name}</h1>
                                 <div className='product-details'>
                                     <div className='product-images'>
-                                        <img className='product-image-main' src={product.preview_image} alt={product.name}/>
+                                        <img className='product-image-main' src={product.previewImage} alt={product.name}/>
 
                                     </div>
                                     <div className='product-info'>

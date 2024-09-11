@@ -13,7 +13,7 @@ s3 = boto3.client(
 
 '''Helper function to generate unique file names for s3'''
 
-ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif"}
+ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif", "HEIC"}
 
 def get_unique_filename(filename):
     ext = filename.rsplit(".", 1)[1].lower()

@@ -2,7 +2,6 @@ import {redirect} from "react-router-dom";
 
 export const productAction = async ({params, request}) => {
     const form = await request.formData();
-    const data = Object.fromEntries(form);
 
     if (!(new Set(['POST', 'PUT']).has(request.method.toUpperCase()))) {
         return {
@@ -12,19 +11,38 @@ export const productAction = async ({params, request}) => {
     }
 
     const url = params.productId ? `/api/products/${params.productId}` : `/api/products`;
-    const product = {
-        name: data.name,
-        price: data.price,
-        description: data.description
-    };
 
     const response = await fetch(url, {
         method: request.method,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(product)
+        body: form
     });
+
+    const productJson = await response.json()
+
+    //Check if response has validation errors
+    if (response.status === 400) {
+        return {
+                error: true,
+                ...productJson
+        }
+    }
+
+    //upload images
+    const photoUrl = `/api/products/${productJson.id}/images`
+
+    const imageUploadResponse = await fetch(photoUrl, {
+        method: request.method,
+        body: form
+    })
+
+    const imageJson = await imageUploadResponse.json()
+
+    if (imageUploadResponse.status === 400) {
+        return {
+                error: true,
+                ...imageJson
+        }
+    }
 
     try {
         const json = await response.json()
@@ -39,9 +57,9 @@ export const productAction = async ({params, request}) => {
 
         //Every worked as expected
         if (params.productId) {
-            return {res: {...json}, error: false, message: 'Successfully Updated Item!'}
+            return {res: {...productJson}, error: false, message: 'Successfully Updated Item!'}
         } else {
-            return redirect(`/products/${json.id}`)
+            return redirect(`/products/${productJson.id}`)
         }
     } catch (error) {
         return {

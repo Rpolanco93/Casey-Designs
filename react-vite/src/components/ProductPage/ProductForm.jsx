@@ -20,7 +20,7 @@ function ProductForm() {
     return (
         <div className="new-product-page">
             <h1>{product.id ? 'Update Your Product' : 'Create a New Product'}</h1>
-            <Form method={formMethod} className='product-form' action={actionUrl}>
+            <Form method={formMethod} className='product-form' action={actionUrl} encType='multipart/form-data'>
                 <div className="product-name">
                     <label htmlFor="name">Name</label>
                     <p>Enter a short and descriptive name for your product.</p>
@@ -51,21 +51,36 @@ function ProductForm() {
                 <div className="product-images">
                     <label htmlFor='previewImage'>Upload images for your product.</label>
                     <p>Upload high-quality images to showcase your product and capture buyers&apos; interest.</p>
+                    <div className='image-upload'>
                         <input
-                            id='previewImage' type='url' defaultValue={product.previewImage} name='image1'
+                            type='file'
+                            accept='image/*'
+                            name='image1'
+                            required
                         />
                         {actionResults.error != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
+                    </div>
+                    <div className='image-upload'>
                         <input
-                            type='url' defaultValue={product.imageOne} name='image2'
+                            type='file'
+                            accept='image/*'
+                            name='image2'
                         />
+                    </div>
+                    <div className='image-upload'>
                         <input
-                            type='url' name='image3'
-                            defaultValue={product.imageTwo}
+                            type='file'
+                            accept='image/*'
+                            name='image3'
                         />
+                    </div>
+                    <div className='image-upload'>
                         <input
-                            type='url' name='image4'
-                            defaultValue={product.imageThree}
+                            type='file'
+                            accept='image/*'
+                            name='image4'
                         />
+                    </div>
                 </div>
                 {actionResults.error != undefined && !actionResults.error ? <>
                      <p>{actionResults.message}</p>

@@ -1,0 +1,199 @@
+.product-details-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+}
+.product-details-page h1{
+    color: #000000;
+}
+
+.product-details {
+    background-color: #8e8484fb;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.product-images {
+    display: flex;
+    flex-direction: row;
+    /* gap: 20px; */
+    width: 800px;
+    height: 500px;
+}
+
+.product-image-main {
+    width: 800px;
+    max-width: fit-content;
+    height: 100%;
+    object-fit: contain;
+    border: 2px solid #dff1e9e0;
+    border-radius: 20px;
+    box-shadow: 0 8px 10px #bcebd4;
+    transition: transform 0.7s ease;
+    display: block;
+    margin: auto;
+}
+
+.product-images img:hover{
+    transform: scale(1.05);
+}
+.product-info {
+    max-width: 100%;
+    text-align: left;
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+    flex-grow: 1;
+    height: auto;
+    background-color: #ffffff;
+    border: 2px solid #bcebd475;
+    border-radius: 20px;
+    width: 750px;
+    padding: 30px;
+    box-shadow: 0 8px 46px #bcebd4;
+}
+
+.description-price{
+    display: flex;
+    flex-direction: row;
+}
+
+.product-description{
+    font-size: 18px;
+    flex-grow: 1;
+    color: #000000;
+    text-align: center;
+}
+.product-price-d-page{
+    width: 200px;
+    align-self: center;
+    color: #000000;
+    padding: 0 0 10% 0;
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+}
+.product-price-d-page p{
+    font-weight:lighter;
+    color: #000000;
+    margin-top: 25px;
+}
+
+.product-details-add{
+    background-color: #7395a7;
+    border: none;
+    color: #ffffff;
+    font-weight: bolder;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: background-color 0.9s ease, transform 0.7s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-details-add:hover {
+    background-color: #7395a7;
+    transform: scale(1.05);
+    color: white;
+}
+
+.product-details-reviews {
+    margin: 0 auto;
+    width: 100%;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+}
+.product-details-review .review-edit-delete{
+    display:flex;
+    flex-direction:row;
+    justify-content: flex-end;
+
+}
+.product-details-review  .review-edit-delete button{
+    background-color: #EBEBEB;
+    font-weight:lighter;
+    border: none;
+    color: #5A7684;
+    cursor: pointer;
+    width: 80px;
+    padding: 10px;
+    border-radius: 30px;
+    transition: background-color 0.9s ease, transform 0.7s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-details-reviews .review-head {
+    display:flex;
+    flex-direction:row;
+    line-height: 2%;
+    align-items:center;
+    font-size: 22px;
+    color: #5A7684;
+}
+.product-details-reviews h5{
+    color: #9ac3af;
+    margin-top: 10px;
+}
+.avg-star{
+    display:flex;
+    flex-direction:row;
+}
+
+.product-details-review {
+    background-color: white;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    color: #49606c;
+}
+.product-details-review p {
+    margin: 5px 0;
+}
+.product-details-review .review-text{
+    padding: 10px;
+    border:none;
+    border-radius: 10px;
+    box-shadow: 0px 0 6px #EBEBEB;
+    height: 50px;
+    text-align: left;
+
+}
+.product-details-reviews button{
+    margin: 0 0 2% 80%;
+    background-color: #E1AA7D;
+    border: none;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: background-color 0.9s ease, transform 0.7s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-details-reviews button:hover{
+    background-color: #BE8A60;
+    transform: scale(1.05);
+    color: white;
+}
+
+.isOwner button:hover{
+    background-color: #BE8A60;
+    transform: scale(1.05);
+    color: white;
+}

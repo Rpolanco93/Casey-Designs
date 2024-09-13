@@ -1,6 +1,6 @@
 CREATE TABLE products (
     id          BIGSERIAL   NOT NULL PRIMARY KEY,
-    seller_id   BIGINT      NOT NULL REFERENCES users (id) ON DELETE SET NULL,
+    seller_id   BIGINT      NOT NULL REFERENCES users (id) ON DELETE CASCADE,
     name        TEXT        NOT NULL,
     description TEXT,
     price       REAL        NOT NULL,

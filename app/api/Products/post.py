@@ -1,8 +1,9 @@
 from flask import jsonify, request, Blueprint
 from flask_login import current_user, login_required
-from app.models import Product, db, ProductReview
+from app.models import Product, db, ProductReview, ProductImage
 from app.api.helper import make_dict, review_dict
 from app.forms import ProductForm, ReviewForm
+from app.api.helper import upload_file_to_s3, get_unique_filename
 
 product_post = Blueprint('product-post', __name__)
 
@@ -57,8 +58,33 @@ def submit_product_review(product_id):
 
     return jsonify(form.errors), 400
 
-# @product_post.route('/<int:product_id>/images', methods=['POST'])
-# @login_required
-# def submit_product_image(product_id):
-#     #need to review how to implement aws
-#     pass
+@product_post.route('/<int:product_id>/images', methods=['POST'])
+@login_required
+def submit_product_image(product_id):
+    form = ProductForm()
+
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        image1 = form.data['image1']
+        image1.filename = get_unique_filename(image1.filename)
+        upload = upload_file_to_s3(image1)
+        # Error Checking
+        # print('='*30, upload, '='*30)
+
+        if "url" not in upload:
+        # if the dictionary doesn't have a url key
+        # it means that there was an error when you tried to upload
+        # so you send back that error message (and you printed it above)
+            return jsonify(upload)
+
+        new_image = ProductImage(
+            product_id=product_id,
+            url=upload['url']
+        )
+
+        db.session.add(new_image)
+        db.session.commit()
+
+        return jsonify({'message': 'Images Creation Successful'})
+
+    return jsonify(form.errors), 400

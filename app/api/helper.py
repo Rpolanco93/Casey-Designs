@@ -20,7 +20,7 @@ def get_unique_filename(filename):
     unique_filename = uuid.uuid4().hex
     return f"{unique_filename}.{ext}"
 
-'''Upload File to s2 helper'''
+'''Upload File to s3 helper'''
 
 BUCKET_NAME = os.environ.get("S3_BUCKET")
 S3_LOCATION = f"http://{BUCKET_NAME}.s3.amazonaws.com/"

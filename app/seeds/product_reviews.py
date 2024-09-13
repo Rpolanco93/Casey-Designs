@@ -50,10 +50,9 @@ def seed_review():
 # sqlite3 in development you need to instead use DELETE to remove all data and
 # it will reset the primary keys for you as well.
 def undo_review():
-    # if environment == "production":
-    #     db.session.execute(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;")
-    # else:
-    #     db.session.execute(text("DELETE FROM reviews"))
+    if environment == "production":
+        db.session.execute(text(f"TRUNCATE table {SCHEMA}.product_reviews RESTART IDENTITY CASCADE;"))
+    else:
+        db.session.execute(text("DELETE FROM product_reviews"))
 
-    # db.session.commit()
-    pass
+    db.session.commit()

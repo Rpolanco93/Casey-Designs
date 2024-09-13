@@ -89,7 +89,12 @@ export const router = createBrowserRouter([
                         ]
                     },
                 ]
-            }
+            },
+            {
+                /*Wildcard catch all redirect back to landing page*/
+                path: "*",
+                element: <LandingPage />
+              }
         ],
     },
 ]);

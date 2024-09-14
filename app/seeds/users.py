@@ -7,7 +7,7 @@ from app.models.db import db
 def seed_users():
     demo = User(
         id=1,
-        first_name='First',
+        first_name='Demo User',
         last_name='Last',
         username='Demo',
         email='demo@aa.io',

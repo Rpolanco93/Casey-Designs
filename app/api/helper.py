@@ -60,7 +60,7 @@ def remove_file_from_s3(image_url):
 
 def make_dict(product):
     # fetch first image
-    preview_image = product.product_images[0].url if len(product.product_images) else None
+    preview_image = product.product_images[-1].url if len(product.product_images) else None
 
     # calculate avg star rating & review count
     review_count = len(product.product_reviews)

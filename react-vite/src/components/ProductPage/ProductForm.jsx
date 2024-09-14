@@ -1,16 +1,22 @@
 import {Form, Link, useActionData, useLoaderData, useNavigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import './ProductForm.css'
+import { PacmanLoader } from 'react-spinners';
 
 function ProductForm() {
     const navigate = useNavigate();
     const product = useLoaderData() || {};
+    const [isLoading, setIsLoading] = useState(false)
 
     const user = useSelector(state => state.session.user);
     const formMethod = product && product.id ? 'put' : 'post';
     const actionUrl = product && product.id ? `/account/products/${product.id}/edit` : '/account/products/new';
-    const actionResults = useActionData() || {};
+    const actionResults = useActionData();
+
+    useEffect(() => {
+        setIsLoading(false)
+    }, [actionResults])
 
     useEffect(() => {
         if (!user) {
@@ -18,10 +24,10 @@ function ProductForm() {
         }
     }, [navigate, user]);
 
-    return (
+    return isLoading ? <div className="product-form"><PacmanLoader /></div> : (
         <div className="new-product-page">
             <h1>{product.id ? 'Update Your Product' : 'Create a New Product'}</h1>
-            <Form method={formMethod} className='product-form' action={actionUrl} encType='multipart/form-data'>
+            <Form method={formMethod} className='product-form' action={actionUrl} encType='multipart/form-data' onSubmit={() => setIsLoading(true)}>
                 <div className="product-name-form">
                     <label htmlFor="name">Name</label>
                     <p>Enter a short and descriptive name for your product.</p>
@@ -29,7 +35,7 @@ function ProductForm() {
                             id='name' type='text' defaultValue={product.name} name='name'
                             required minLength={5} maxLength={50}
                         />
-                    {actionResults.error != undefined && actionResults.error && actionResults.name && <p>{actionResults.name}</p>}
+                    {actionResults != undefined && actionResults.error && actionResults.name && <p>{actionResults.name}</p>}
                 </div>
                 <div className="product-description-form">
                     <label htmlFor='description'>Description</label>
@@ -38,7 +44,7 @@ function ProductForm() {
                             name='description' id='description' defaultValue={product.description}
                             required maxLength='1000'
                         />
-                    {actionResults.error != undefined && actionResults.error && actionResults.description && <p>{actionResults.description}</p>}
+                    {actionResults != undefined && actionResults.error && actionResults.description && <p>{actionResults.description}</p>}
                 </div>
                 <div className="product-price">
                     <label htmlFor='price'>Price</label>
@@ -47,7 +53,7 @@ function ProductForm() {
                             id='price' type='number' defaultValue={product.price} name='price'
                             required min='0' step='1.00'
                         />
-                    {actionResults.error != undefined && actionResults.error && actionResults.price && <p>{actionResults.price}</p>}
+                    {actionResults != undefined && actionResults.error && actionResults.price && <p>{actionResults.price}</p>}
                 </div>
                 <div className="product-images-form">
                     <label htmlFor='previewImage'>Upload images for your product.</label>
@@ -59,7 +65,7 @@ function ProductForm() {
                             name='image1'
                             required
                         />
-                        {actionResults.error != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
+                        {actionResults != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
                     </div>
                     {/* <div className='image-upload'>
                         <input
@@ -83,7 +89,7 @@ function ProductForm() {
                         />
                     </div> */}
                 </div>
-                {actionResults.error != undefined && !actionResults.error ? <>
+                {actionResults != undefined && !actionResults.error ? <>
                      <p>{actionResults.message}</p>
                      <Link to={'/account/products'}>
                          <button>View Account Products</button>

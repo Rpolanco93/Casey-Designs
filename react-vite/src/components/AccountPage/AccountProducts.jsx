@@ -1,4 +1,5 @@
 import { Link, useLoaderData, useRevalidator } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useModal } from '../../context/Modal';
 import { DeleteProductModal } from './DeleteProductModal';
 
@@ -7,6 +8,10 @@ function EditProductTiles() {
     let revalidator = useRevalidator()
     const { setModalContent, closeModal } = useModal();
 
+    useEffect(() => {
+        closeModal()
+    }, [products])
+
     // handle on click for delete a product
     const handleDeleteProduct = (productId) => {
         setModalContent(
@@ -14,7 +19,6 @@ function EditProductTiles() {
                 productId={productId}
                 onClose={() => {
                     revalidator.revalidate()
-                    closeModal()
                 }}
             />
         );

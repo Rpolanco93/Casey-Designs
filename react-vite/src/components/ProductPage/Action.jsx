@@ -44,28 +44,14 @@ export const productAction = async ({params, request}) => {
         }
     }
 
-    try {
-        const json = await response.json()
 
-        //Check if response has validation errors
-        if (response.status === 400) {
-            return {
-                error: true,
-                ...json
-            }
-        }
-
-        //Every worked as expected
-        if (params.productId) {
-            return {res: {...productJson}, error: false, message: 'Successfully Updated Item!'}
-        } else {
-            return redirect(`/products/${productJson.id}`)
-        }
-    } catch (error) {
-        return {
-            error: true,
-            message: error.message
-        }
+    //Every worked as expected
+    if (params.productId) {
+        console.log('stephen should be here')
+        return {res: {...productJson}, error: false, message: 'Successfully Updated Item!'}
+    } else {
+        console.log('this is redirecting')
+        return redirect(`/products/${productJson.id}`)
     }
 }
 

@@ -58,7 +58,7 @@ def submit_product_review(product_id):
 
     return jsonify(form.errors), 400
 
-@product_post.route('/<int:product_id>/images', methods=['POST'])
+@product_post.route('/<int:product_id>/images', methods=['POST', 'PUT'])
 @login_required
 def submit_product_image(product_id):
     form = ProductForm()

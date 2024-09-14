@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {FaPlusCircle, FaRegComment, FaStar} from 'react-icons/fa';
 import {useModal} from '../../context/Modal';
 import {ReviewUpsertModal} from '../ReviewsModal/ReviewUpsertModal';
-import {Suspense} from 'react';
+import {Suspense, useEffect} from 'react';
 import {DeleteReviewModal} from '../ReviewsModal/ReviewDeleteModal';
 import './ProductPage.css'
 import {PacmanLoader} from "react-spinners";
@@ -16,10 +16,9 @@ function ProductDetails() {
 
     const { setModalContent, closeModal } = useModal();
 
-
     // handle on click for add to cart
-    const handleAddToCart = () => {
-
+    const handleAddToCart = (e) => {
+        alert('Feature Coming Soon!')
     };
 
     // handle on click for add a review

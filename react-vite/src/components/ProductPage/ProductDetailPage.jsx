@@ -104,7 +104,7 @@ function ProductDetails() {
                                         <button onClick={handleAddReview} title='disabled for the Product&apos;s owner' disabled ><FaPlusCircle/>Add a Review</button>
                                         </div>
                                 }
-                                {reviews.length && reviews.map(review => (
+                                {reviews.length > 0 && reviews.map(review => (
                                     <div key={review.userId} className='product-details-review'>
                                         <h5>{review.user.firstName}</h5>
                                         <div className="avg-star"><p>{review.stars} </p><FaStar/></div>

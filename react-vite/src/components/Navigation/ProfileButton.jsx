@@ -55,7 +55,7 @@ function ProfileButton() {
     );
 
     if (serverResponse) {
-      setErrors(serverResponse);
+      console.log(serverResponse)
     } else {
       closeMenu();
     }
@@ -73,7 +73,7 @@ function ProfileButton() {
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
-                <Link to={'/account'} onClick={closeMenu}>
+                <Link to={'/account/products'} onClick={closeMenu}>
                   My Account
                 </Link>
               </li>

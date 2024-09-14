@@ -6,6 +6,7 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { Link } from "react-router-dom";
+import { thunkLogin } from "../../redux/session";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -40,6 +41,26 @@ function ProfileButton() {
     closeMenu();
   };
 
+  const handleDemo = async (e) => {
+    e.preventDefault();
+
+    const email = 'demo@aa.io';
+    const password = 'password';
+
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email,
+        password,
+      })
+    );
+
+    if (serverResponse) {
+      console.log(serverResponse)
+    } else {
+      closeMenu();
+    }
+  };
+
   return (
     <>
       <button onClick={toggleMenu}>
@@ -52,7 +73,7 @@ function ProfileButton() {
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
-                <Link to={'/account'} onClick={closeMenu}>
+                <Link to={'/account/products'} onClick={closeMenu}>
                   My Account
                 </Link>
               </li>
@@ -72,6 +93,9 @@ function ProfileButton() {
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
+              <li>
+                <button onClick={handleDemo}>Demo User</button>
+              </li>
             </>
           )}
         </ul>

@@ -10,6 +10,7 @@ function ProductTiles({ product }) {
     return (
         <div className='product-tiles'>
             <NavLink to={`/products/${product.id}`} title={product.name}>
+                <h4 className='product-name'>{product.name}</h4>
                 <img src={product.previewImage} alt={product.name} />
                 <div className='price-container'>
                     <p className='product-price'>${product.price}</p>

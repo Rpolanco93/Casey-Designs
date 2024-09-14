@@ -1,4 +1,4 @@
-import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector, } from 'react-redux';
 import { thunkLogout } from "../../redux/session";
 import './AccountPage.css'
@@ -24,20 +24,20 @@ function AccountPage() {
         <div className="account-page">
             <div className="link-container">
                 {menu.map(item => (
-                    <Link to={`${item[0]}`} key={item[0]}>
+                    <NavLink to={`${item[0]}`} key={item[0]}>
                         <h3>{item[1]}</h3>
-                    </Link>
+                    </NavLink>
                 ))}
                 <div className="logout">
                     <div>
-                        <button onClick={logout}>
-                            Logout
-                        </button>
+                        <NavLink onClick={logout}>
+                            <h3>Logout</h3>
+                        </NavLink>
                     </div>
                 </div>
             </div>
             <div>
-                <Outlet />
+                <Outlet  className='account-details-section'/>
             </div>
         </div>
     ) : <Navigate to={'/'}></Navigate>

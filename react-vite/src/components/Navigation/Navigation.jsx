@@ -4,15 +4,17 @@ import "./Navigation.css";
 
 function Navigation() {
   return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
+    <div className="navbar">
+      <ul className="navbar-list">
+        <li>
+          <NavLink to="/" className={'home-link'}></NavLink>
+        </li>
+        <li>
+          <ProfileButton />
+        </li>
+      </ul>
+    </div>
 
-      <li>
-        <ProfileButton />
-      </li>
-    </ul>
   );
 }
 

@@ -1,6 +1,7 @@
 import {Form, Link, useActionData, useLoaderData, useNavigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useEffect} from 'react';
+import './ProductForm.css'
 
 function ProductForm() {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ function ProductForm() {
         <div className="new-product-page">
             <h1>{product.id ? 'Update Your Product' : 'Create a New Product'}</h1>
             <Form method={formMethod} className='product-form' action={actionUrl} encType='multipart/form-data'>
-                <div className="product-name">
+                <div className="product-name-form">
                     <label htmlFor="name">Name</label>
                     <p>Enter a short and descriptive name for your product.</p>
                         <input
@@ -30,7 +31,7 @@ function ProductForm() {
                         />
                     {actionResults.error != undefined && actionResults.error && actionResults.name && <p>{actionResults.name}</p>}
                 </div>
-                <div className="product-description">
+                <div className="product-description-form">
                     <label htmlFor='description'>Description</label>
                     <p>Provide a detailed description of your product in 1000 characters or less. Highlight key features to attract potential buyers.</p>
                         <textarea
@@ -48,7 +49,7 @@ function ProductForm() {
                         />
                     {actionResults.error != undefined && actionResults.error && actionResults.price && <p>{actionResults.price}</p>}
                 </div>
-                <div className="product-images">
+                <div className="product-images-form">
                     <label htmlFor='previewImage'>Upload images for your product.</label>
                     <p>Upload high-quality images to showcase your product and capture buyers&apos; interest.</p>
                     <div className='image-upload'>
@@ -60,7 +61,7 @@ function ProductForm() {
                         />
                         {actionResults.error != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
                     </div>
-                    <div className='image-upload'>
+                    {/* <div className='image-upload'>
                         <input
                             type='file'
                             accept='image/*'
@@ -80,7 +81,7 @@ function ProductForm() {
                             accept='image/*'
                             name='image4'
                         />
-                    </div>
+                    </div> */}
                 </div>
                 {actionResults.error != undefined && !actionResults.error ? <>
                      <p>{actionResults.message}</p>

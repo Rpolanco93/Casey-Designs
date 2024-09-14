@@ -62,7 +62,7 @@ function ProductDetails() {
                 >
                     {
                         product => (
-                            <div className={"details"}>
+                            <div className="product-details-page">
                                 <h1>{product.name}</h1>
                                 <div className='product-details'>
                                     <div className='product-images'>
@@ -70,8 +70,10 @@ function ProductDetails() {
 
                                     </div>
                                     <div className='product-info'>
+                                        <div className='description-price'>
                                         <p className="product-description">{product.description}</p>
                                         <div className="product-price-d-page"><h3>Price: ${product.price}</h3><p>+tx</p>
+                                        </div>
                                         </div>
                                         <button
                                             className='product-details-add'
@@ -93,15 +95,16 @@ function ProductDetails() {
                 >
                     {
                         reviews => (
-                            <div className={'reviews'}>
+                            <div className={'product-details-reviews'}>
                                 <div className="review-head"><h2>Reviews</h2><FaRegComment/></div>
                                 {
                                     user && !data.product.isOwner ?
                                         <button onClick={handleAddReview}><FaPlusCircle/>Add a Review</button> :
-                                        <button onClick={handleAddReview} disabled ><FaPlusCircle/>Add a Review</button>
+                                        <div className='isOwner'>
+                                        <button onClick={handleAddReview} title='disabled for the Product&apos;s owner' disabled ><FaPlusCircle/>Add a Review</button>
+                                        </div>
                                 }
-                                {data.product.isOwner && <p>Add a review is disabled for the Product&apos;s owner</p>}
-                                {reviews.length && reviews.map(review => (
+                                {reviews.length > 0 && reviews.map(review => (
                                     <div key={review.userId} className='product-details-review'>
                                         <h5>{review.user.firstName}</h5>
                                         <div className="avg-star"><p>{review.stars} </p><FaStar/></div>

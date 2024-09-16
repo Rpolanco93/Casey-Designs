@@ -13,3 +13,5 @@ source "${BASE_DIRECTORY}/helper.sh"
     -password="${PASSWORD}" \
     -schemas="${SCHEMA}" \
     -locations="filesystem:${BASE_DIRECTORY}/../../../sql"
+
+#google flyway migrate to review this

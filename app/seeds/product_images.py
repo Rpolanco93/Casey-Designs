@@ -52,7 +52,7 @@ def seed_images():
     shield = ProductImage(
         id=10,
         product_id=10,
-        url="https://kenswebsite.s3.us-east-2.amazonaws.com/photos/armor+sheild.jpg"
+        url="https://kenswebsite.s3.us-east-2.amazonaws.com/photos/armor+shield.jpg"
     )
 
 

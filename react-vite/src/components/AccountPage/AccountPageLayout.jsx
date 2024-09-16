@@ -15,9 +15,9 @@ function AccountPage() {
       };
 
     const menu = [
-        ['products', 'Products'],
-        ['categories', 'Categories'],
-        ['orders', 'Orders']
+        ['products', 'Products']
+        // ['categories', 'Categories'],
+        // ['orders', 'Orders']
     ]
 
     return user ? (

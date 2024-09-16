@@ -57,37 +57,29 @@ function ProductForm() {
                 </div>
                 <div className="product-images-form">
                     <label htmlFor='previewImage'>Upload images for your product.</label>
-                    <p>Upload high-quality images to showcase your product and capture buyers&apos; interest.</p>
-                    <div className='image-upload'>
-                        <input
-                            type='file'
-                            accept='image/*'
-                            name='image1'
-                            required
-                        />
-                        {actionResults != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
-                    </div>
-                    {/* <div className='image-upload'>
-                        <input
-                            type='file'
-                            accept='image/*'
-                            name='image2'
-                        />
-                    </div>
-                    <div className='image-upload'>
-                        <input
-                            type='file'
-                            accept='image/*'
-                            name='image3'
-                        />
-                    </div>
-                    <div className='image-upload'>
-                        <input
-                            type='file'
-                            accept='image/*'
-                            name='image4'
-                        />
-                    </div> */}
+                    <p>Upload a high-quality image to showcase your product and capture buyers&apos; interest.</p>
+                    {product.id ?
+                        <div>
+                            <p>Current Photo:<img className='product-image-main' src={product.previewImage} alt={product.name}/></p>
+                            <div className='image-upload'>
+                                <input
+                                    type='file'
+                                    accept='image/*'
+                                    name='image1'
+                                />
+                                {actionResults != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
+                            </div>
+                        </div> :
+                        <div className='image-upload'>
+                            <input
+                                type='file'
+                                accept='image/*'
+                                name='image1'
+                                required
+                            />
+                            {actionResults != undefined && actionResults.error && actionResults.previewImage && <p>{actionResults.previewImage}</p>}
+                        </div>
+                        }
                 </div>
                 {actionResults != undefined && !actionResults.error ? <>
                      <p>{actionResults.message}</p>

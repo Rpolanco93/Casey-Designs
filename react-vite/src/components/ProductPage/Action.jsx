@@ -29,28 +29,28 @@ export const productAction = async ({params, request}) => {
 
     //upload images
     const photoUrl = `/api/products/${productJson.id}/images`
+    const image = form.get('image1')
 
-    const imageUploadResponse = await fetch(photoUrl, {
-        method: request.method,
-        body: form
-    })
+    if (image.size) {
+        const imageUploadResponse = await fetch(photoUrl, {
+            method: request.method,
+            body: form
+        })
 
-    const imageJson = await imageUploadResponse.json()
+        const imageJson = await imageUploadResponse.json()
 
-    if (imageUploadResponse.status === 400) {
-        return {
+        if (imageUploadResponse.status === 400) {
+            return {
                 error: true,
                 ...imageJson
+            }
         }
     }
 
-
     //Every worked as expected
     if (params.productId) {
-        console.log('stephen should be here')
         return {res: {...productJson}, error: false, message: 'Successfully Updated Item!'}
     } else {
-        console.log('this is redirecting')
         return redirect(`/products/${productJson.id}`)
     }
 }

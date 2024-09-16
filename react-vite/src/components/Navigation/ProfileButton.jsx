@@ -7,6 +7,7 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { Link } from "react-router-dom";
 import { thunkLogin } from "../../redux/session";
+import './Navigation.css'
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -62,45 +63,51 @@ function ProfileButton() {
   };
 
   return (
-    <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
-      </button>
+    <div className="profile-menu-container">
+        <button onClick={toggleMenu} className={"user-circle"}>
+          <FaUserCircle />
+        </button>
       {showMenu && (
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
+              {/* <li className={"user-menu-items"} >{user.username}</li>
+              <li className={"user-menu-items"} >{user.email}</li> */}
+              <li className={"user-menu-items"} >
                 <Link to={'/account/products'} onClick={closeMenu}>
                   My Account
                 </Link>
               </li>
-              <li>
-                <button onClick={logout}>Log Out</button>
+              <li className={"user-menu-items"}>
+                <button className="login-signup-button" onClick={logout}>Log Out</button>
               </li>
             </>
           ) : (
             <>
+              <li className={"user-menu-items"}>
               <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
+                className="login-signup-button"
                 modalComponent={<LoginFormModal />}
               />
+              </li>
+              <li className={"user-menu-items"}>
               <OpenModalMenuItem
                 itemText="Sign Up"
                 onItemClick={closeMenu}
+                className="login-signup-button"
                 modalComponent={<SignupFormModal />}
               />
-              <li>
-                <button onClick={handleDemo}>Demo User</button>
+              </li>
+              <li className="user-menu-items">
+                <button className="login-signup-button" onClick={handleDemo}>Demo User</button>
               </li>
             </>
           )}
         </ul>
       )}
-    </>
+    </div>
   );
 }
 

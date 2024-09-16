@@ -1,4 +1,5 @@
 # Container starting image
+# had to update to bookworm due to issue running flyway
 FROM python:3.9.19-slim-bookworm
 
 # Install wget, build-essentials, libpq-dev, nodejs, npm; then purge caches

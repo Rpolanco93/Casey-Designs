@@ -1,0 +1,90 @@
+.login-form-modal {
+    width: 400px;
+    padding: 30px;
+    border-radius: 20px;
+    background: linear-gradient(135deg,#f3f5f7,#ebfffc,#cc8f0b,#b06b04);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fadeIn 1s ease-in-out;
+}
+
+.login-form-modal h1 {
+    text-align: center;
+    color: #070808;
+    margin-bottom: 20px;
+}
+
+.login-form-modal form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.login-form-modal label {
+    color: #000000;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+}
+
+.login-form-modal input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.login-form-modal input:focus {
+    border-color:#5a768448;
+    background-color: #dce8ed;
+    outline: none;
+}
+
+
+.login-form-modal .pill-button {
+    background-color: #EBEBEB;
+    border: none;
+    color:#5A7684;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: background-color 0.9s ease, transform 0.7s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-form-modal .pill-button:hover {
+    background-color: #7395a7;
+    transform: scale(1.05);
+    color: white;
+}
+
+.login-form-modal .pill-button:disabled {
+    background-color: #ddd;
+    color:#868788;
+    cursor: not-allowed;
+}
+
+.login-form-modal .error {
+    color: red;
+    font-size: 14px;
+    margin-top: -10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}

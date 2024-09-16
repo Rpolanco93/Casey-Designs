@@ -15,7 +15,7 @@ def seed_users():
     )
     marnie = User(
         id=2,
-        first_name='First',
+        first_name='Marnie',
         last_name='Last',
         username='marnie',
         email='marnie@aa.io',

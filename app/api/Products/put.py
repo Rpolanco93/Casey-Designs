@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 from app.models import Product, db, ProductReview
 from app.api.helper import make_dict
-from app.forms import ProductForm, ReviewForm
+from app.forms import EditProductForm, ReviewForm
 
 product_put = Blueprint('product-put', __name__)
 
@@ -14,7 +14,7 @@ def edit_product(product_id):
     product = Product.query.get_or_404(product_id)
 
     if product.seller_id == current_user.id:
-        form = ProductForm()
+        form = EditProductForm()
         form['csrf_token'].data = request.cookies['csrf_token']
         if form.validate_on_submit():
             product.name = form.data['name']

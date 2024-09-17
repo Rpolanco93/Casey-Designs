@@ -60,7 +60,7 @@ function ProductForm() {
                     <p>Upload a high-quality image to showcase your product and capture buyers&apos; interest.</p>
                     {product.id ?
                         <div>
-                            <p>Current Photo:<img className='product-image-main' src={product.previewImage} alt={product.name}/></p>
+                            <p>Current Photo:<img className='product-image-form' src={product.previewImage} alt={product.name}/></p>
                             <div className='image-upload'>
                                 <input
                                     type='file'

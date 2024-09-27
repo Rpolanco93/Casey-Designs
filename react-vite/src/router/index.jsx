@@ -8,6 +8,7 @@ import AccountPage from '../components/AccountPage/AccountPageLayout';
 import EditProductTiles from '../components/AccountPage/AccountProducts';
 import ProductForm from '../components/ProductPage/ProductForm';
 import {productAction, reviewAction} from '../components/ProductPage/Action';
+import CartDetailPage from '../components/CartDetailsPage';
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
             {
                 path: "signup",
                 element: <SignupFormPage/>,
+            },
+            {
+                path: "cart",
+                element: <CartDetailPage/>
             },
             {
                 path: 'account',

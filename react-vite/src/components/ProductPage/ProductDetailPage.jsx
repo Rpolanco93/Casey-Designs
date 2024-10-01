@@ -11,9 +11,7 @@ import {PacmanLoader} from "react-spinners";
 function ProductDetails() {
     const navigate = useNavigate()
     const data = useLoaderData()
-
     const user = useSelector(state => state.session.user)
-
     const { setModalContent, closeModal } = useModal();
 
     // handle on click for add to cart

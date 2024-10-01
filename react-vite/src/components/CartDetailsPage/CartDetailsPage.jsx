@@ -1,5 +1,8 @@
+import {useSelector} from "react-redux";
+
 function CartDetailPage() {
-    return <h1>Cart Details</h1>
+    const currentUser = useSelector((state) => state.session.user);
+    return <h1>Cart Details for {currentUser.first_name}</h1>
 }
 
 export default CartDetailPage;

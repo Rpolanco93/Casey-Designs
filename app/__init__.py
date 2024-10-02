@@ -1,7 +1,8 @@
+import json
 import os
-# import stripe
+from sys import api_version
 
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -21,8 +22,9 @@ from .config import Config
 from .models import db, SCHEMA, User
 from .seeds import seed_commands
 
-# This is your test secret API key.
-# stripe.api_key = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+stripe = (os.environ.get('STRIPE_SECRET_KEY'), {
+    api_version: "2022-08-01"
+})
 
 # Create Flask application
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
@@ -54,13 +56,11 @@ app.register_blueprint(product_delete, url_prefix='/api/products')
 app.register_blueprint(product_put, url_prefix='/api/products')
 app.register_blueprint(cart_get_items, url_prefix='/api/cart')
 
-
 # Before any request is made, set the search path so that direct queries will look in the
 # right place for database objects.
 @app.before_request
 def set_search_path():
     db.session.execute(text(f"SET search_path TO {SCHEMA}"))
-
 
 @login.user_loader
 def load_user(id):
@@ -79,6 +79,7 @@ def https_redirect():
             url = request.url.replace('http://', 'https://', 1)
             code = 301
             return redirect(url, code=code)
+
 
 
 @app.after_request
@@ -116,6 +117,41 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
+
+# stripe config route
+@app.route("/api/config")
+def stipe_config():
+    return {
+        'publishableKey': os.environ.get('STRIPE_PUBLISHABLE_KEY')
+    }
+
+# stripe
+def calculate_order_amount(items):
+    # Replace this constant with a calculation of the order's amount
+    # Calculate the order total on the server to prevent
+    # people from directly manipulating the amount on the client
+    return 1400
+
+# Stripe payment intent
+@app.route("/api/create-payment-intent")
+def stripe_payment_intent():
+    try:
+        data = json.loads(request.data)
+        # Create a payment intent with the order amount and currency
+        intent = stripe.PaymentIntent.create(
+            currency = "usd",
+            amount = calculate_order_amount(data['items']),
+            automatic_payment_methods= { 'enabled': True },
+        )
+
+        # Send publishable key and PaymentIntent details to client
+        return jsonify({
+                'clientSecret': intent['client_secret']
+        })
+    except Exception as e:
+        return {'error': {
+            'message': e.message,
+        }}
 
 
 @app.errorhandler(404)

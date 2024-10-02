@@ -1,8 +1,38 @@
-import {useSelector} from "react-redux";
+import {Await, Link, useLoaderData} from "react-router-dom";
+import {Suspense} from "react";
+import {PacmanLoader} from "react-spinners";
 
 function CartDetailPage() {
-    const currentUser = useSelector((state) => state.session.user);
-    return <h1>Cart Details for {currentUser.first_name}</h1>
+    const data = useLoaderData();
+    return (
+        <div className='shopping-cart-page'>
+            <Suspense fallback={<PacmanLoader/>}>
+                <Await
+                    resolve={data.items}
+                    errorElement={<p>Error loading Shopping Cart!</p>}
+                >
+                    {
+                        items => (
+                            <div className="cart-detail-page">
+                                <h1>Shopping Cart</h1>
+                                {items.map(item => (
+                                    <div className="my-product-tile" key={item.product_id}>
+                                        {/*<img src={item.product.previewImage} className="my-product-images"/>*/}
+                                        <Link to={`/products/${item.product.id}`}>
+                                            <h3 className="my-product-name-sc">{item.product.name}</h3>
+                                        </Link>
+                                        <p>Price: {item.price}</p>
+                                    </div>
+                                ))}
+                                <div className="checkout-price">
+                                </div>
+                            </div>
+                        )
+                    }
+                </Await>
+            </Suspense>
+        </div>
+    )
 }
 
 export default CartDetailPage;

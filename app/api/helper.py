@@ -95,3 +95,11 @@ def review_dict(review: ProductReview) -> Dict[str, Any]:
         'updatedAt': review.updated_at,
         'userId': review.user_id
     }
+
+def cart_item_dict(item):
+    return {
+        'product_id': item.product_id,
+        'quantity': item.quantity,
+        'price': item.price,
+        "product": make_dict(item.product),
+    }

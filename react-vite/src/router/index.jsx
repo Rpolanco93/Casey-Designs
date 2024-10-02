@@ -32,7 +32,12 @@ export const router = createBrowserRouter([
             },
             {
                 path: "cart",
-                element: <CartDetailPage/>
+                element: <CartDetailPage/>,
+                loader: async () => {
+                    return defer({
+                        items: fetch(`/api/cart`).then(res => res.json())
+                    })
+                },
             },
             {
                 path: 'account',

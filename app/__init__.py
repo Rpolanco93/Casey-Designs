@@ -1,4 +1,5 @@
 import os
+# import stripe
 
 from flask import Flask, redirect, request
 from flask_cors import CORS
@@ -19,6 +20,9 @@ from .api import (
 from .config import Config
 from .models import db, SCHEMA, User
 from .seeds import seed_commands
+
+# This is your test secret API key.
+# stripe.api_key = os.environ.get('STRIPE_PUBLISHABLE_KEY')
 
 # Create Flask application
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
@@ -41,6 +45,7 @@ login.login_view = 'auth.unauthorized'
 CORS(app)
 
 # Add route blueprints
+# app.register_blueprint(stripe_routes)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(product_routes, url_prefix='/api/products')

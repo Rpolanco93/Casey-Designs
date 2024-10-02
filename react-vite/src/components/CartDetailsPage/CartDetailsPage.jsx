@@ -1,6 +1,7 @@
 import {Await, Link, useLoaderData} from "react-router-dom";
 import {Suspense} from "react";
 import {PacmanLoader} from "react-spinners";
+import StripeCheckout from "../StripeCheckout/index.js";
 
 function CartDetailPage() {
     const data = useLoaderData();
@@ -24,8 +25,7 @@ function CartDetailPage() {
                                         <p>Price: {item.price}</p>
                                     </div>
                                 ))}
-                                <div className="checkout-price">
-                                </div>
+                                {/*<StripeCheckout />*/}
                             </div>
                         )
                     }

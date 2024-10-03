@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import { PaymentElement } from "@stripe/react-stripe-js";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
+import {PaymentElement, useStripe, useElements} from "@stripe/react-stripe-js";
+import './PaymentForm.css'
 
 function PaymentForm() {
     const stripe = useStripe();
@@ -50,6 +50,11 @@ function PaymentForm() {
             }
         });
 
+        // This point will only be reached if there is an immediate error when
+        // confirming the payment. Otherwise, your customer will be redirected to
+        // your `return_url`. For some payment methods like iDEAL, your customer will
+        // be redirected to an intermediate site first to authorize the payment, then
+        // redirected to the `return_url`.
         if (error.type === "card_error" || error.type === "validation_error") {
             setMessage(error.message);
         } else {
@@ -59,10 +64,17 @@ function PaymentForm() {
         setIsProcessing(false);
     }
 
+    //set the options object to include the secret key and layout
+    const options = {
+        // passing the client secret obtained from the server
+        clientSecret: clientSecret,
+        layout: "tabs"
+    };
+
     return (
         <div className="payment-form">
             <form id="payment-form" onSubmit={handleSubmit}>
-                <PaymentElement id="payment-element" />
+                <PaymentElement id="payment-element"/>
                 <button disabled={isProcessing || !stripe || !elements} id="submit">
                     <span id="payment-button-text">
                         {isProcessing ? "Processing ... " : "Pay now"}
@@ -71,6 +83,12 @@ function PaymentForm() {
                 {/* Show any error or success messages */}
                 {message && <div id="payment-message">{message}</div>}
             </form>
+            <div id="dpm-annotation">
+                <p>
+                    Payment methods are dynamically displayed based on customer location, order amount, and
+                    currency.&nbsp;
+                </p>
+            </div>
         </div>
     )
 }

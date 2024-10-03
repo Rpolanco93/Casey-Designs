@@ -1,10 +1,11 @@
 import {Await, Link, useLoaderData} from "react-router-dom";
-import {Suspense} from "react";
+import {Suspense, useEffect, useState} from "react";
 import {PacmanLoader} from "react-spinners";
 import PaymentForm from "../Stripe/PaymentForm.jsx";
 
 function CartDetailPage() {
     const data = useLoaderData();
+
     return (
         <div className='shopping-cart-page'>
             <Suspense fallback={<PacmanLoader/>}>

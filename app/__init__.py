@@ -1,6 +1,6 @@
-import json
 import os
 from sys import api_version
+import stripe
 
 from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
@@ -22,9 +22,10 @@ from .config import Config
 from .models import db, SCHEMA, User
 from .seeds import seed_commands
 
-stripe = (os.environ.get('STRIPE_SECRET_KEY'), {
-    api_version: "2022-08-01"
-})
+# stripe = (os.environ.get('STRIPE_SECRET_KEY'), {
+#     api_version: "2024-06-20"
+# })
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 
 # Create Flask application
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
@@ -133,14 +134,15 @@ def calculate_order_amount(items):
     return 1400
 
 # Stripe payment intent
-@app.route("/api/create-payment-intent")
+@app.route("/api/create-payment-intent",  methods=['POST'])
 def stripe_payment_intent():
     try:
-        data = json.loads(request.data)
+        # data = json.loads(request.data)
         # Create a payment intent with the order amount and currency
         intent = stripe.PaymentIntent.create(
             currency = "usd",
-            amount = calculate_order_amount(data['items']),
+            # amount = calculate_order_amount(data['items']),
+            amount = 100,
             automatic_payment_methods= { 'enabled': True },
         )
 
@@ -150,7 +152,7 @@ def stripe_payment_intent():
         })
     except Exception as e:
         return {'error': {
-            'message': e.message,
+            'message': str(e)
         }}
 
 

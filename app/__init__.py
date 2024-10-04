@@ -1,6 +1,8 @@
 import os
+from sys import api_version
+import stripe
 
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, jsonify
 from flask_cors import CORS
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -13,11 +15,19 @@ from .api import (
     product_routes,
     product_post,
     product_delete,
-    product_put
+    product_put,
+    cart_get_items,
+    cart_add_items,
+    cart_delete_items
 )
 from .config import Config
 from .models import db, SCHEMA, User
 from .seeds import seed_commands
+
+# stripe = (os.environ.get('STRIPE_SECRET_KEY'), {
+#     api_version: "2024-06-20"
+# })
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 
 # Create Flask application
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
@@ -40,20 +50,22 @@ login.login_view = 'auth.unauthorized'
 CORS(app)
 
 # Add route blueprints
+# app.register_blueprint(stripe_routes)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(product_routes, url_prefix='/api/products')
 app.register_blueprint(product_post, url_prefix='/api/products')
 app.register_blueprint(product_delete, url_prefix='/api/products')
 app.register_blueprint(product_put, url_prefix='/api/products')
-
+app.register_blueprint(cart_get_items, url_prefix='/api/cart')
+app.register_blueprint(cart_add_items, url_prefix='/api/cart')
+app.register_blueprint(cart_delete_items, url_prefix='/api/cart')
 
 # Before any request is made, set the search path so that direct queries will look in the
 # right place for database objects.
 @app.before_request
 def set_search_path():
     db.session.execute(text(f"SET search_path TO {SCHEMA}"))
-
 
 @login.user_loader
 def load_user(id):
@@ -72,6 +84,7 @@ def https_redirect():
             url = request.url.replace('http://', 'https://', 1)
             code = 301
             return redirect(url, code=code)
+
 
 
 @app.after_request
@@ -109,6 +122,42 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
+
+# stripe config route
+@app.route("/api/config")
+def stipe_config():
+    return {
+        'publishableKey': os.environ.get('STRIPE_PUBLISHABLE_KEY')
+    }
+
+# stripe
+def calculate_order_amount(items):
+    # Replace this constant with a calculation of the order's amount
+    # Calculate the order total on the server to prevent
+    # people from directly manipulating the amount on the client
+    return 1400
+
+# Stripe payment intent
+@app.route("/api/create-payment-intent",  methods=['POST'])
+def stripe_payment_intent():
+    try:
+        # data = json.loads(request.data)
+        # Create a payment intent with the order amount and currency
+        intent = stripe.PaymentIntent.create(
+            currency = "usd",
+            # amount = calculate_order_amount(data['items']),
+            amount = 100,
+            automatic_payment_methods= { 'enabled': True },
+        )
+
+        # Send publishable key and PaymentIntent details to client
+        return jsonify({
+                'clientSecret': intent['client_secret']
+        })
+    except Exception as e:
+        return {'error': {
+            'message': str(e)
+        }}
 
 
 @app.errorhandler(404)

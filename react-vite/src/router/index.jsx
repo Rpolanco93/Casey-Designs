@@ -8,6 +8,8 @@ import AccountPage from '../components/AccountPage/AccountPageLayout';
 import EditProductTiles from '../components/AccountPage/AccountProducts';
 import ProductForm from '../components/ProductPage/ProductForm';
 import {productAction, reviewAction} from '../components/ProductPage/Action';
+import CartDetailPage from '../components/CartDetailsPage';
+import PaymentCompletion from "../components/Stripe/PaymentCompletion.jsx";
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +30,20 @@ export const router = createBrowserRouter([
             {
                 path: "signup",
                 element: <SignupFormPage/>,
+            },
+            {
+                path: "cart",
+                element: <CartDetailPage/>,
+                id: "cart",
+                loader: async () => {
+                    return defer({
+                        items: fetch(`/api/cart`).then(res => res.json())
+                    })
+                },
+            },
+            {
+                path: "payment-completed",
+                element: <PaymentCompletion />
             },
             {
                 path: 'account',

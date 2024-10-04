@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@stripe/react-stripe-js": "^2.8.0",
+    "@stripe/stripe-js": "^4.6.0",
+    "@stripe/stripe-react-native": "^0.38.6",
     "react-spinners": "^0.14.1"
   }
 }

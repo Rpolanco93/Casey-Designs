@@ -7,6 +7,11 @@ const CartItem = ({data}) => {
     let revalidator = useRevalidator()
 
     const handleMinusQuantity = async () => {
+        if (data.quantity == 1) {
+            removeItem()
+            return;
+        }
+
         await fetch(`/api/cart/${data.product_id}`, {
             method: 'PUT',
             headers: {

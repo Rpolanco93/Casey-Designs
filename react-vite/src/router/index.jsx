@@ -34,6 +34,7 @@ export const router = createBrowserRouter([
             {
                 path: "cart",
                 element: <CartDetailPage/>,
+                id: "cart",
                 loader: async () => {
                     return defer({
                         items: fetch(`/api/cart`).then(res => res.json())

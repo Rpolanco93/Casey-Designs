@@ -39,7 +39,7 @@
 }
 
 .login-signup-button {
-  color:red;
+  color:white;
 }
 
 .user-circle {
@@ -50,15 +50,15 @@
 }
 .user-menu-items button {
   background-color: #EBEBEB;
-    border: none;
-    color: #5A7684;
-    font-weight: bolder;
-    cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 30px;
-    transition: background-color 0.9s ease, transform 0.7s ease;
-    display: inline-block;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.193);
+  border: none;
+  color: #5A7684;
+  font-weight: bolder;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: background-color 0.9s ease, transform 0.7s ease;
+  display: inline-block;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.193);
 }
 .user-menu-items button:hover{
   background-color: #7395a7;
@@ -66,15 +66,18 @@
   color: white;
 }
 
-/* .user-menu-items {
+.user-menu-items {
   font-weight: lighter;
   cursor: pointer;
   position: relative;
   list-style: none;
+  display: inline-block;
+  justify-content: space-between;
+  gap: 10px;
 }
 .user-menu-items:hover {
   transform: scaleX(1.05) scaleY(1.05);
-} */
+}
 /*NAVBAR */
 .navbar {
   margin: 0px;

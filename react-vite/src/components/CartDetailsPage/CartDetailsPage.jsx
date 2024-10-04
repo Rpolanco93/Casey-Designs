@@ -1,10 +1,32 @@
-import {Await, Link, useLoaderData} from "react-router-dom";
-import {Suspense, useEffect, useState} from "react";
+import {Await, Link, useLoaderData, useNavigate} from "react-router-dom";
+import {Suspense, useEffect} from "react";
 import {PacmanLoader} from "react-spinners";
 import PaymentForm from "../Stripe/PaymentForm.jsx";
+import {useSelector} from "react-redux";
+import CartItem from "../CartItem/CartItem.jsx";
+import './Cart.css'
 
 function CartDetailPage() {
     const data = useLoaderData();
+    const navigate = useNavigate()
+    const currentUser = useSelector(state => state.session.user)
+
+    // check that user is logged in
+    useEffect(() => {
+        if (!currentUser) {
+            navigate("/login")
+        }
+    }, [currentUser])
+
+    //calculates the total for all items in the cart
+    const getTotal = (cartItems) => {
+        let total = 0;
+        cartItems.forEach(item => {
+            let price = item.quantity * item.price;
+            total+= price
+        })
+        return total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
     return (
         <div className='shopping-cart-page'>
@@ -15,19 +37,17 @@ function CartDetailPage() {
                     {
                         items => (
                             <div className="cart-detail-page">
-                                <h1>Shopping Cart</h1>
+                                <h1>{items.length} item(s) in your cart</h1>
                                 <div>
-                                    {items.map(item => (
-                                        <div className="my-product-tile" key={item.product_id}>
-                                            {/*<img src={item.product.previewImage} className="my-product-images"/>*/}
-                                            <Link to={`/products/${item.product.id}`}>
-                                                <h3 className="my-product-name-sc">{item.product.name}</h3>
-                                            </Link>
-                                            <p>Price: {item.price}</p>
-                                        </div>
-                                    ))}
+                                    {items.length ? items.map((item, key) => (
+                                        <CartItem key={key} data={item}/>
+                                    )) : <h2>No Items in Cart</h2>}
                                 </div>
-                                <PaymentForm />
+                                <div className='cart-info'>
+                                    <h3 style={{fontSize: "20px"}}>Total: ${getTotal(items)}</h3>
+                                    <p>Before taxes and fees.</p>
+                                </div>
+                                <PaymentForm data={getTotal(items)} />
                             </div>
                         )
                     }

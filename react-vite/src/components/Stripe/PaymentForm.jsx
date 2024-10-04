@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {PaymentElement, useStripe, useElements} from "@stripe/react-stripe-js";
+import {PaymentElement, useStripe, useElements, EmbeddedCheckoutProvider} from "@stripe/react-stripe-js";
 import './PaymentForm.css'
 
-function PaymentForm() {
+function PaymentForm({data}) {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -11,6 +11,7 @@ function PaymentForm() {
 
     const [message, setMessage] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
+    const [email, setEmail] = useState("");
 
     useEffect(() => {
         fetch("/api/config").then(
@@ -47,6 +48,8 @@ function PaymentForm() {
             elements,
             confirmParams: {
                 return_url: `${window.location.origin}/payment-completed`,
+                receipt_email: email,
+                defaultShippingDetails: addressDetails,
             }
         });
 
@@ -74,7 +77,17 @@ function PaymentForm() {
     return (
         <div className="payment-form">
             <form id="payment-form" onSubmit={handleSubmit}>
-                <PaymentElement id="payment-element"/>
+                <input
+                    id="email"
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter email address"
+                />
+                <PaymentElement id="payment-element" options={options} />
+                <div>
+                    <p>Total: ${data}</p>
+                </div>
                 <button disabled={isProcessing || !stripe || !elements} id="submit">
                     <span id="payment-button-text">
                         {isProcessing ? "Processing ... " : "Pay now"}

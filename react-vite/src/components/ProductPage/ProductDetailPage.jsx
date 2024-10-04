@@ -15,8 +15,17 @@ function ProductDetails() {
     const { setModalContent, closeModal } = useModal();
 
     // handle on click for add to cart
-    const handleAddToCart = () => {
-        alert('Feature Coming Soon!')
+    const handleAddToCart = async () => {
+        await fetch(`/api/cart/${data.product.id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                quantity: 1,
+                price: data.product.price,
+            })
+        }).then(() => navigate('/cart'));
     };
 
     // handle on click for add a review

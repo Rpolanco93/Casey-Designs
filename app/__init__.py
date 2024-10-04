@@ -16,7 +16,9 @@ from .api import (
     product_post,
     product_delete,
     product_put,
-    cart_get_items
+    cart_get_items,
+    cart_add_items,
+    cart_delete_items
 )
 from .config import Config
 from .models import db, SCHEMA, User
@@ -56,6 +58,8 @@ app.register_blueprint(product_post, url_prefix='/api/products')
 app.register_blueprint(product_delete, url_prefix='/api/products')
 app.register_blueprint(product_put, url_prefix='/api/products')
 app.register_blueprint(cart_get_items, url_prefix='/api/cart')
+app.register_blueprint(cart_add_items, url_prefix='/api/cart')
+app.register_blueprint(cart_delete_items, url_prefix='/api/cart')
 
 # Before any request is made, set the search path so that direct queries will look in the
 # right place for database objects.

@@ -24,7 +24,7 @@ const secret = await fetch("/api/create-payment-intent", {
         return clientSecret ? clientSecret : null;
     })
 
-//set the options object to include the secret key and layout
+//set the options object to include the secret key and appearance
 const appearance = {
     theme: 'stripe',
 };

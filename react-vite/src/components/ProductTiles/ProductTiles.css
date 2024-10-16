@@ -45,9 +45,11 @@
     color: #5a7684a5;
     transition: color 0.5s ease;
 }
-.product-tiles:hover .product-price{
+
+.product-tiles:hover .product-price {
     color: #5A7684;
 }
-.product-tiles:hover .price-container{
+
+.product-tiles:hover .price-container {
     background-color: white;
 }

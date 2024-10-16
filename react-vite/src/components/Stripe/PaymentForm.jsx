@@ -1,37 +1,14 @@
-import {useEffect, useState} from "react";
-import {PaymentElement, useStripe, useElements, EmbeddedCheckoutProvider} from "@stripe/react-stripe-js";
+import {useState} from "react";
+import {PaymentElement, useElements, useStripe} from "@stripe/react-stripe-js";
 import './PaymentForm.css'
 
 function PaymentForm({data}) {
     const stripe = useStripe();
     const elements = useElements();
 
-    const [stripePromise, setStripePromise] = useState(null);
-    const [clientSecret, setClientSecret] = useState("");
-
     const [message, setMessage] = useState("");
     const [isProcessing, setIsProcessing] = useState(false);
     const [email, setEmail] = useState("");
-
-    useEffect(() => {
-        fetch("/api/config").then(
-            async (response) => {
-                const { publishableKey } = await response.json();
-
-                setStripePromise(publishableKey);
-            })
-    }, [])
-
-    useEffect(() => {
-        fetch("/api/create-payment-intent", {
-            method: "POST",
-            body: JSON.stringify({}),
-        }).then(async (response) => {
-            const { clientSecret } = await response.json();
-
-            setClientSecret(clientSecret);
-        })
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -44,12 +21,12 @@ function PaymentForm({data}) {
 
         setIsProcessing(true);
 
-        const { error } = await stripe.confirmPayment({
+        const {error} = await stripe.confirmPayment({
             elements,
             confirmParams: {
                 return_url: `${window.location.origin}/payment-completed`,
                 receipt_email: email,
-                defaultShippingDetails: addressDetails,
+                // defaultShippingDetails: addressDetails,
             }
         });
 
@@ -67,13 +44,6 @@ function PaymentForm({data}) {
         setIsProcessing(false);
     }
 
-    //set the options object to include the secret key and layout
-    const options = {
-        // passing the client secret obtained from the server
-        clientSecret: clientSecret,
-        layout: "tabs"
-    };
-
     return (
         <div className="payment-form">
             <form id="payment-form" onSubmit={handleSubmit}>
@@ -84,7 +54,7 @@ function PaymentForm({data}) {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter email address"
                 />
-                <PaymentElement id="payment-element" options={options} />
+                <PaymentElement id="payment-element" />
                 <div>
                     <p>Total: ${data}</p>
                 </div>

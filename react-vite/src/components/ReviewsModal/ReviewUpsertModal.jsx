@@ -7,7 +7,7 @@ export const ReviewUpsertModal = ({productId, onClose}) => {
     const fetcher = useFetcher();
 
     //Create a promise to be resolved after data is loaded by the fetcher
-    const [ promise ] = useState(Promise.withResolvers())
+    const [promise] = useState(Promise.withResolvers())
 
     //Track errors
     const [errors, setErrors] = useState({});
@@ -44,8 +44,7 @@ export const ReviewUpsertModal = ({productId, onClose}) => {
 
                 //Reset submitted state
                 setSubmitted(false)
-            }
-            else {
+            } else {
                 //Close the modal
                 onClose();
             }
@@ -62,14 +61,15 @@ export const ReviewUpsertModal = ({productId, onClose}) => {
 
     return (
         <div className="review-form-modal">
-             <Suspense fallback={<PacmanLoader/>}>
+            <Suspense fallback={<PacmanLoader/>}>
                 <Await
                     resolve={promise.promise}
                     errorElement={<p>Error loading review!</p>}
                 >
                     {
                         review => (
-                            <fetcher.Form method={review.review ? "put" : "post"} action={`products/${productId}/review`}>
+                            <fetcher.Form method={review.review ? "put" : "post"}
+                                          action={`products/${productId}/review`}>
                                 <h2>{review.review ? "Update Your Review" : "Add A Review"}</h2>
                                 <div className="review-text">
                                     <label htmlFor="review">Enter a Review</label>
@@ -105,7 +105,7 @@ export const ReviewUpsertModal = ({productId, onClose}) => {
                         )
                     }
                 </Await>
-             </Suspense>
+            </Suspense>
         </div>
     )
 };

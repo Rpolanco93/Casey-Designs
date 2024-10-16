@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "payment-completed",
-                element: <PaymentCompletion />
+                element: <PaymentCompletion/>
             },
             {
                 path: 'account',
@@ -109,8 +109,8 @@ export const router = createBrowserRouter([
             {
                 /*Wildcard catch all redirect back to landing page*/
                 path: "*",
-                element: <LandingPage />
-              }
+                element: <LandingPage/>
+            }
         ],
     },
 ]);

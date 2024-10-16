@@ -1,4 +1,4 @@
-import { FaDollarSign } from "react-icons/fa";
+import {FaDollarSign} from "react-icons/fa";
 import './CartItem.css'
 import {Link, useRevalidator} from "react-router-dom";
 
@@ -49,7 +49,7 @@ const CartItem = ({data}) => {
 
     return (
         <div className="cart-item-tile">
-            <img alt={'previewImage'} src={product.previewImage} className="cart-item-product-images" />
+            <img alt={'previewImage'} src={product.previewImage} className="cart-item-product-images"/>
             <Link to={`/products/${product.id}`}>
                 <h3 className="product-tile-name-sc">{product.name}</h3>
             </Link>

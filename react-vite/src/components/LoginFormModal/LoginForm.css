@@ -2,7 +2,7 @@
     width: 400px;
     padding: 30px;
     border-radius: 20px;
-    background: linear-gradient(135deg,#f3f5f7,#ebfffc,#cc8f0b,#b06b04);
+    background: linear-gradient(135deg, #f3f5f7, #ebfffc, #cc8f0b, #b06b04);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 50%;
@@ -40,7 +40,7 @@
 }
 
 .login-form-modal input:focus {
-    border-color:#5a768448;
+    border-color: #5a768448;
     background-color: #dce8ed;
     outline: none;
 }
@@ -49,7 +49,7 @@
 .login-form-modal .pill-button {
     background-color: #EBEBEB;
     border: none;
-    color:#5A7684;
+    color: #5A7684;
     font-weight: bold;
     cursor: pointer;
     padding: 10px 20px;
@@ -67,7 +67,7 @@
 
 .login-form-modal .pill-button:disabled {
     background-color: #ddd;
-    color:#868788;
+    color: #868788;
     cursor: not-allowed;
 }
 

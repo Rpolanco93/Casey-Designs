@@ -1,12 +1,12 @@
-import { useNavigation, useRouteLoaderData } from "react-router-dom";
-import { useSelector } from "react-redux";
+import {useNavigation, useRouteLoaderData} from "react-router-dom";
+import {useSelector} from "react-redux";
 import ProductTiles from "../ProductTiles/ProductTiles";
 import './Landing.css'
 
 function LandingPage() {
     const products = useRouteLoaderData("root");
     const user = useSelector(state => state.session.user);
-    const { state } = useNavigation();
+    const {state} = useNavigation();
 
     return (
         <div>
@@ -16,7 +16,7 @@ function LandingPage() {
             <div className="landing-page">
                 {state === 'loading' ? <h1>Loading</h1> :
                     products.map(element => (
-                        <ProductTiles key={element.id} product={element} />
+                        <ProductTiles key={element.id} product={element}/>
                     ))
                 }
             </div>

@@ -40,13 +40,16 @@ button {
     transition: all 0.2s ease;
     display: block;
 }
+
 button:hover {
     filter: contrast(115%);
 }
+
 button:active {
     transform: translateY(0px) scale(0.98);
     filter: brightness(0.9);
 }
+
 button:disabled {
     opacity: 0.5;
     cursor: none;
@@ -92,5 +95,5 @@ fieldset, input, select {
     padding: 20px;
     margin: 20px 0;
     border-radius: var(--radius);
-    font-size:0.7em;
+    font-size: 0.7em;
 }

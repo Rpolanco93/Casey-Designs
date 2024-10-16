@@ -12,7 +12,7 @@ function ProductDetails() {
     const navigate = useNavigate()
     const data = useLoaderData()
     const user = useSelector(state => state.session.user)
-    const { setModalContent, closeModal } = useModal();
+    const {setModalContent, closeModal} = useModal();
 
     // handle on click for add to cart
     const handleAddToCart = async () => {
@@ -72,14 +72,16 @@ function ProductDetails() {
                                 <h1>{product.name}</h1>
                                 <div className='product-details'>
                                     <div className='product-images'>
-                                        <img className='product-image-main' src={product.previewImage} alt={product.name}/>
+                                        <img className='product-image-main' src={product.previewImage}
+                                             alt={product.name}/>
 
                                     </div>
                                     <div className='product-info'>
                                         <div className='description-price'>
-                                        <p className="product-description">{product.description}</p>
-                                        <div className="product-price-d-page"><h3>Price: ${product.price}</h3><p>+tx</p>
-                                        </div>
+                                            <p className="product-description">{product.description}</p>
+                                            <div className="product-price-d-page"><h3>Price: ${product.price}</h3>
+                                                <p>+tx</p>
+                                            </div>
                                         </div>
                                         <button
                                             className='product-details-add'
@@ -107,7 +109,10 @@ function ProductDetails() {
                                     user && !data.product.isOwner ?
                                         <button onClick={handleAddReview}><FaPlusCircle/>Add a Review</button> :
                                         <div className='isOwner'>
-                                        <button onClick={handleAddReview} title='disabled for the Product&apos;s owner' disabled ><FaPlusCircle/>Add a Review</button>
+                                            <button onClick={handleAddReview}
+                                                    title='disabled for the Product&apos;s owner' disabled>
+                                                <FaPlusCircle/>Add a Review
+                                            </button>
                                         </div>
                                 }
                                 {reviews.length > 0 && reviews.map(review => (

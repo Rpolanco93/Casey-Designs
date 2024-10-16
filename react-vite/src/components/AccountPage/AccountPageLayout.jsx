@@ -1,6 +1,6 @@
-import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector, } from 'react-redux';
-import { thunkLogout } from "../../redux/session";
+import {Navigate, NavLink, Outlet, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector,} from 'react-redux';
+import {thunkLogout} from "../../redux/session";
 import './AccountPage.css'
 
 function AccountPage() {
@@ -12,7 +12,7 @@ function AccountPage() {
         e.preventDefault();
         dispatch(thunkLogout());
         navigate('/')
-      };
+    };
 
     const menu = [
         ['products', 'Products']
@@ -37,7 +37,7 @@ function AccountPage() {
                 </div>
             </div>
             <div>
-                <Outlet  className='account-details-section'/>
+                <Outlet className='account-details-section'/>
             </div>
         </div>
     ) : <Navigate to={'/'}></Navigate>

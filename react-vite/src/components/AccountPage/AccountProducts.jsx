@@ -10,7 +10,7 @@ function EditProductTiles() {
 
     useEffect(() => {
         closeModal()
-    }, [products])
+    }, [products, closeModal])
 
     // handle on click for delete a product
     const handleDeleteProduct = (productId) => {

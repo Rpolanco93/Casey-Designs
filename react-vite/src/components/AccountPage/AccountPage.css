@@ -17,7 +17,7 @@
     padding: 30px;
 }
 
-.link-container{
+.link-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -30,7 +30,7 @@
 
 .account-products-page img {
     width: 100px;
-    height:100px;
+    height: 100px;
 }
 
 .account-product-buttons button {
@@ -52,7 +52,7 @@
     gap: 10px 0px;
 }
 
-.product-buttons  button{
+.product-buttons button {
     background-color: #EBEBEB;
     border: none;
     color: #5A7684;
@@ -78,4 +78,4 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
+}

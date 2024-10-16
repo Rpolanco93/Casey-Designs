@@ -1,95 +1,95 @@
-.new-product-page{
+.new-product-page {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 h1 {
-     text-align: center;
-     color: #000000;
-     font-size: 28px;
-     margin-bottom: 20px;
+    text-align: center;
+    color: #000000;
+    font-size: 28px;
+    margin-bottom: 20px;
 }
 
 .product-image-form {
     width: 100px;
-    height:100px;
+    height: 100px;
 }
 
- .product-form {
-     display: grid;
-     grid-template-columns: 1fr;
-     gap: 15px;
-     background-color: #ffffff;
-     border: 2px solid #bcebd475;
-     border-radius: 20px;
-     width: 700px;
-     padding: 30px;
-     box-shadow: 0 8px 46px #c15f14;
- }
-
- .product-form label {
-     color: #5A7684;
-     margin-bottom: 5px;
-     font-size: 16px;
-     font-weight: bold;
-     text-align: left;
- }
-
- .product-form p {
-     color: #5a7684b7;
-     font-size: 12px;
-     margin-top: 5px;
-     margin-bottom: 15px;
- }
-
- .product-form input,
- .product-form select {
-     width: 150px;
-     height: 10px;
-     border: 2px solid #ddd;
-     border-radius: 10px;
-     padding: 5px 10px;
-     font-size: 14px;
-     transition: border-color 0.3s ease, background-color 0.3s ease;
+.product-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    background-color: #ffffff;
+    border: 2px solid #bcebd475;
+    border-radius: 20px;
+    width: 700px;
+    padding: 30px;
+    box-shadow: 0 8px 46px #c15f14;
 }
 
- .product-form input:focus,
- .product-form select:focus {
-     border-color: #5A7684;
-     background-color: #eaf0f3ca;
-     outline: none;
- }
+.product-form label {
+    color: #5A7684;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
 
- .image-upload input{
+.product-form p {
+    color: #5a7684b7;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.product-form input,
+.product-form select {
+    width: 150px;
+    height: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.product-form input:focus,
+.product-form select:focus {
+    border-color: #5A7684;
+    background-color: #eaf0f3ca;
+    outline: none;
+}
+
+.image-upload input {
     width: 200px;
     height: 20px;
     border-radius: 10px;
     padding: 5px 10px;
     font-size: 14px;
     transition: border-color 0.3s ease, background-color 0.3s ease;
- }
+}
 
- .product-form button {
-     background-color: #EBEBEB;
-     border: none;
-     color: #5A7684;
-     font-weight: bold;
-     cursor: pointer;
-     padding: 12px 24px;
-     margin: 10px 0;
-     border-radius: 30px;
-     transition: background-color 0.3s ease, transform 0.3s ease;
-     display: inline-block;
-     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-     /* Softer shadow */
-     width: 100%;
-     /* Full-width buttons for a modern look */
- }
+.product-form button {
+    background-color: #EBEBEB;
+    border: none;
+    color: #5A7684;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 12px 24px;
+    margin: 10px 0;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Softer shadow */
+    width: 100%;
+    /* Full-width buttons for a modern look */
+}
 
- .product-form button:hover {
-     background-color: #7395a7;
-     transform: translateY(-3px);
-     /* A subtle lift effect */
-     color: white;
- }
+.product-form button:hover {
+    background-color: #7395a7;
+    transform: translateY(-3px);
+    /* A subtle lift effect */
+    color: white;
+}

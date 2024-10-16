@@ -22,8 +22,8 @@ export const productAction = async ({params, request}) => {
     //Check if response has validation errors
     if (response.status === 400) {
         return {
-                error: true,
-                ...productJson
+            error: true,
+            ...productJson
         }
     }
 

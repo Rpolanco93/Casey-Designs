@@ -5,7 +5,7 @@
     padding: 2px 15px;
     background: #d27a068a;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    position:center;
+    position: center;
 }
 
 .signup-form-modal h1 {
@@ -63,9 +63,10 @@
 
 .signup-form-modal .pill-button:disabled {
     background-color: #ddd;
-    color:#868788;
+    color: #868788;
     cursor: not-allowed;
 }
+
 .signup-form-modal .error {
     color: red;
     font-size: 14px;

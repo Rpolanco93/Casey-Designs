@@ -8,6 +8,7 @@
 !/Pipfile
 !/Pipfile.lock
 !/run.sh
+!/requirements.txt
 
 # Ignore any python generated files
 **/__pycache__

@@ -76,9 +76,9 @@ WORKDIR /var/www
 RUN pip install --upgrade pip
 
 # Install pipenv to generate requirements file
-RUN pip install pipenv
-RUN pipenv requirements > requirements.txt
-RUN pip uninstall -y pipenv
+#RUN pip install pipenv
+#RUN pipenv requirements > requirements.txt
+#RUN pip uninstall -y pipenv
 
 # Install python dependecies
 RUN pip install -r requirements.txt

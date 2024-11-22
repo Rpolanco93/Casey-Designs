@@ -74,6 +74,7 @@ function CartDetailPage() {
                                                     clientSecret: intent.clientSecret,
                                                     appearance
                                                 }
+                                                console.log('This options', options);
                                                 return (
                                                     <Elements stripe={stripePromise} options={options}>
                                                         <PaymentForm data={getTotal(items)}/>
